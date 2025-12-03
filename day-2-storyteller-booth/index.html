@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄️ The Winter Forest Tale ❄️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Snowflake animation */
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10vh;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        .story-container {
+            background: rgba(255, 255, 255, 0.95);
+            border: 4px solid #2a5298;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .story-header {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 11px 11px 0 0;
+            border-bottom: 3px solid #1e3c72;
+        }
+
+        .story-header h1 {
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .story-content {
+            padding: 40px;
+            min-height: 300px;
+        }
+
+        .story-text {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-btn {
+            background: linear-gradient(135deg, #5a7db8 0%, #4a6fa5 100%);
+            color: white;
+            border: none;
+            padding: 18px 25px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            font-family: 'Georgia', serif;
+        }
+
+        .choice-btn:hover {
+            background: linear-gradient(135deg, #6a8dc8 0%, #5a7db5 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .choice-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            margin-top: 20px;
+        }
+
+        .restart-btn:hover {
+            background: linear-gradient(135deg, #ec7063 0%, #e74c3c 100%);
+        }
+
+        .ending {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 5px solid #2a5298;
+            padding: 20px;
+            border-radius: 10px;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .story-header h1 {
+                font-size: 1.5em;
+            }
+
+            .story-content {
+                padding: 25px;
+            }
+
+            .story-text {
+                font-size: 1em;
+            }
+
+            .choice-btn {
+                font-size: 1em;
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="story-container">
+        <div class="story-header">
+            <h1>❄️ THE WINTER FOREST TALE ❄️</h1>
+        </div>
+        <div class="story-content">
+            <div class="story-text" id="storyText"></div>
+            <div class="choices" id="choices"></div>
+        </div>
+    </div>
+
+    <script>
+        // Story data structure
+        const story = {
+            start: {
+                text: "You stand at the edge of an enchanted winter forest. Snowflakes dance in the moonlight, and two paths lie before you. The forest whispers ancient secrets, while the mountain calls with promises of adventure.",
+                choices: [
+                    { text: "🌲 Take the forest path", next: "forest" },
+                    { text: "🏔️ Climb the mountain trail", next: "mountain" }
+                ]
+            },
+            forest: {
+                text: "The forest path winds through towering pines draped in snow. You hear a melodic humming coming from deeper within. As you walk, you notice mysterious blue lights flickering between the trees.",
+                choices: [
+                    { text: "✨ Follow the blue lights", next: "fairy" },
+                    { text: "🎵 Seek out the humming sound", next: "cabin" }
+                ]
+            },
+            mountain: {
+                text: "The mountain trail is steep and challenging. As you climb, the wind grows stronger, carrying with it the scent of pine and ice. Halfway up, you discover a cave entrance carved with ancient runes.",
+                choices: [
+                    { text: "🏔️ Continue climbing to the summit", next: "summit" },
+                    { text: "🕯️ Enter the mysterious cave", next: "cave" }
+                ]
+            },
+            fairy: {
+                text: "The blue lights lead you to a clearing where winter fairies dance around a frozen fountain. Their queen approaches you with a warm smile. 'You have a kind heart,' she says. 'We grant you the gift of eternal warmth in winter.'",
+                choices: [
+                    { text: "🔄 Start a new story", next: "start" }
+                ],
+                ending: true
+            },
+            cabin: {
+                text: "The humming leads you to a cozy cabin where an elderly woman sits by the fire, knitting. 'I've been expecting you,' she says warmly. 'Every winter, a brave soul finds their way here. Stay for tea and I'll share the forest's greatest secret.' She reveals that you are the chosen guardian of the winter forest.",
+                choices: [
+                    { text: "🔄 Start a new story", next: "start" }
+                ],
+                ending: true
+            },
+            summit: {
+                text: "You reach the summit as dawn breaks. The view is breathtaking—the entire valley sparkles with fresh snow below. A magnificent white wolf appears beside you. 'You have proven your courage,' it speaks. 'From this day forward, you may call upon the wolves when you need guidance.' The wolf becomes your eternal companion.",
+                choices: [
+                    { text: "🔄 Start a new story", next: "start" }
+                ],
+                ending: true
+            },
+            cave: {
+                text: "Inside the cave, you find an ancient library frozen in ice. In the center sits a crystalline book that glows with inner light. As you touch it, visions of the past and future flash before your eyes. You have discovered the Chronicle of Winter, containing all the wisdom of the ages. You are now the keeper of winter's knowledge.",
+                choices: [
+                    { text: "🔄 Start a new story", next: "start" }
+                ],
+                ending: true
+            }
+        };
+
+        // Create snowflakes
+        function createSnowflakes() {
+            const numFlakes = 30;
+            for (let i = 0; i < numFlakes; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
+                document.body.appendChild(snowflake);
+            }
+        }
+
+        // Display story node
+        function displayStory(nodeKey) {
+            const node = story[nodeKey];
+            const storyText = document.getElementById('storyText');
+            const choicesDiv = document.getElementById('choices');
+
+            // Clear previous content
+            storyText.innerHTML = '';
+            choicesDiv.innerHTML = '';
+
+            // Add ending style if it's an ending
+            if (node.ending) {
+                const endingDiv = document.createElement('div');
+                endingDiv.className = 'ending';
+                endingDiv.textContent = node.text;
+                storyText.appendChild(endingDiv);
+            } else {
+                storyText.textContent = node.text;
+            }
+
+            // Create choice buttons
+            node.choices.forEach(choice => {
+                const button = document.createElement('button');
+                button.className = 'choice-btn';
+                if (choice.next === 'start') {
+                    button.className += ' restart-btn';
+                }
+                button.textContent = choice.text;
+                button.onclick = () => displayStory(choice.next);
+                choicesDiv.appendChild(button);
+            });
+        }
+
+        // Initialize the story
+        createSnowflakes();
+        displayStory('start');
+    </script>
+</body>
+</html>
