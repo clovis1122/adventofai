@@ -1,4 +1,6 @@
-Instructions:
+# Day 1: Fortune Teller
+
+## Instructions:
 
 Create a goose task with instructions to act as a fortune teller. When running "goose run -t day-1-fortune-teller/task.md", the goal is to print the output described here:
 
