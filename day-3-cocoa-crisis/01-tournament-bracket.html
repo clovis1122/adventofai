@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tournament Bracket - Hot Cocoa Championship</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #6b4423;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 Hot Cocoa Championship Tournament Bracket</h1>
+        <div class="mermaid">
+graph TD
+    subgraph "Quarter Finals - Round 1"
+        Q1A[Classic Swiss Velvet<br/>234 votes ✓] --> SF1
+        Q1B[Spicy Mexican Mocha<br/>189 votes] -.-> |eliminated| X1[ ]
+        Q2A[Peppermint Dream<br/>312 votes ✓] --> SF2
+        Q2B[Salted Caramel Swirl<br/>298 votes] -.-> |eliminated| X2[ ]
+        Q3A[Dark Chocolate Decadence<br/>276 votes ✓] --> SF3
+        Q3B[White Chocolate Wonder<br/>203 votes] -.-> |eliminated| X3[ ]
+        Q4A[Cinnamon Fireside<br/>267 votes ✓] --> SF4
+        Q4B[Hazelnut Heaven<br/>245 votes] -.-> |eliminated| X4[ ]
+    end
+    
+    subgraph "Semi Finals - Round 2"
+        SF1[Classic Swiss Velvet<br/>398 votes]
+        SF2[Peppermint Dream<br/>445 votes ✓]
+        SF3[Dark Chocolate Decadence<br/>512 votes ✓]
+        SF4[Cinnamon Fireside<br/>387 votes]
+        SF1 -.-> |eliminated| X5[ ]
+        SF2 --> FINAL
+        SF3 --> FINAL
+        SF4 -.-> |eliminated| X6[ ]
+    end
+    
+    subgraph "Championship - Final Round"
+        FINAL[🏆 CHAMPIONSHIP MATCH 🏆]
+        F1[Peppermint Dream<br/>623 votes<br/>🥈 Runner-up]
+        F2[Dark Chocolate Decadence<br/>678 votes<br/>🥇 CHAMPION!]
+        FINAL --> F1
+        FINAL --> F2
+    end
+    
+    style F2 fill:#ffd700,stroke:#ff6347,stroke-width:4px,color:#000
+    style F1 fill:#c0c0c0,stroke:#666,stroke-width:3px
+    style Q1A fill:#90EE90
+    style Q2A fill:#90EE90
+    style Q3A fill:#90EE90
+    style Q4A fill:#90EE90
+    style SF2 fill:#90EE90
+    style SF3 fill:#90EE90
+    style Q1B fill:#ffcccb
+    style Q2B fill:#ffcccb
+    style Q3B fill:#ffcccb
+    style Q4B fill:#ffcccb
+    style SF1 fill:#ffcccb
+    style SF4 fill:#ffcccb
+    style X1 fill:#fff,stroke:#fff
+    style X2 fill:#fff,stroke:#fff
+    style X3 fill:#fff,stroke:#fff
+    style X4 fill:#fff,stroke:#fff
+    style X5 fill:#fff,stroke:#fff
+    style X6 fill:#fff,stroke:#fff
+        </div>
+    </div>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

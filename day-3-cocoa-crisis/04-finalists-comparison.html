@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finalists Comparison - Hot Cocoa Championship</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #6b4423;
+            text-align: center;
+        }
+        canvas {
+            max-height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🥇 Championship Finalists Head-to-Head</h1>
+        <canvas id="radarChart"></canvas>
+    </div>
+    <script>
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Richness', 'Sweetness', 'Creativity', 'Presentation'],
+                datasets: [{
+                    label: '🥇 Dark Chocolate Decadence (Winner - 678 votes)',
+                    data: [10, 5, 8, 10],
+                    borderColor: 'rgba(255, 215, 0, 1)',
+                    backgroundColor: 'rgba(255, 215, 0, 0.3)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(255, 215, 0, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(255, 215, 0, 1)',
+                    pointRadius: 6
+                }, {
+                    label: '🥈 Peppermint Dream (Runner-up - 623 votes)',
+                    data: [6, 9, 7, 9],
+                    borderColor: 'rgba(192, 192, 192, 1)',
+                    backgroundColor: 'rgba(192, 192, 192, 0.3)',
+                    borderWidth: 3,
+                    pointBackgroundColor: 'rgba(192, 192, 192, 1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(192, 192, 192, 1)',
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            stepSize: 2
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

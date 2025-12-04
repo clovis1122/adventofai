@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Judge Scores by Category - Hot Cocoa Championship</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #6b4423;
+            text-align: center;
+        }
+        canvas {
+            max-height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏅 Judge Scores by Category - All Recipes</h1>
+        <canvas id="barChart"></canvas>
+    </div>
+    <script>
+        const ctx = document.getElementById('barChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Classic Swiss', 'Spicy Mocha', 'Peppermint', 'Salted Caramel', 'Dark Chocolate', 'White Chocolate', 'Cinnamon', 'Hazelnut'],
+                datasets: [{
+                    label: 'Richness',
+                    data: [8, 7, 6, 9, 10, 5, 7, 8],
+                    backgroundColor: 'rgba(139, 69, 19, 0.8)',
+                    borderColor: 'rgba(139, 69, 19, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'Sweetness',
+                    data: [6, 5, 9, 8, 5, 10, 7, 7],
+                    backgroundColor: 'rgba(255, 182, 193, 0.8)',
+                    borderColor: 'rgba(255, 182, 193, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'Creativity',
+                    data: [4, 9, 7, 6, 8, 5, 8, 6],
+                    backgroundColor: 'rgba(147, 112, 219, 0.8)',
+                    borderColor: 'rgba(147, 112, 219, 1)',
+                    borderWidth: 2
+                }, {
+                    label: 'Presentation',
+                    data: [7, 8, 9, 7, 10, 6, 8, 7],
+                    backgroundColor: 'rgba(255, 215, 0, 0.8)',
+                    borderColor: 'rgba(255, 215, 0, 1)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Breakdown of Judge Scores (Out of 10)',
+                        font: {
+                            size: 16
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        title: {
+                            display: true,
+                            text: 'Score (out of 10)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Recipe'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hot Cocoa Championship 2025 - Results Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .card-icon {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .card-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #6b4423;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .card-description {
+            color: #666;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .winner-banner {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .winner-banner h2 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #6b4423;
+        }
+        .winner-banner p {
+            font-size: 1.2em;
+            color: #333;
+            margin: 10px 0 0 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 0;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>☕ Hot Cocoa Championship 2025</h1>
+        <p>Interactive Results Dashboard</p>
+        <p style="font-size: 0.9em;">December 3, 2025 | Winter Festival</p>
+    </div>
+
+    <div class="container">
+        <div class="winner-banner">
+            <h2>🏆 Champion: Dark Chocolate Decadence!</h2>
+            <p>Defeated Peppermint Dream 678-623 in an epic final showdown</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">5,294</div>
+                <div class="stat-label">Total Votes Cast</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Competing Recipes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">14</div>
+                <div class="stat-label">Closest Match Margin</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">73</div>
+                <div class="stat-label">Biggest Blowout</div>
+            </div>
+        </div>
+
+        <h2 style="color: white; text-align: center; margin: 40px 0 20px 0;">📊 Explore the Data</h2>
+
+        <div class="grid">
+            <a href="01-tournament-bracket.html" class="card">
+                <div class="card-icon">🏆</div>
+                <div class="card-title">Tournament Bracket</div>
+                <div class="card-description">Complete bracket with all rounds and vote counts</div>
+            </a>
+
+            <a href="02-judge-scores-radar.html" class="card">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Judge Scores - All Recipes</div>
+                <div class="card-description">Radar chart comparing all 8 recipes across 4 categories</div>
+            </a>
+
+            <a href="03-voting-by-time.html" class="card">
+                <div class="card-icon">⏰</div>
+                <div class="card-title">Voting by Time Period</div>
+                <div class="card-description">See when voters showed up: Morning, Afternoon, Evening</div>
+            </a>
+
+            <a href="04-finalists-comparison.html" class="card">
+                <div class="card-icon">🥇</div>
+                <div class="card-title">Championship Finalists</div>
+                <div class="card-description">Head-to-head comparison of winner vs runner-up</div>
+            </a>
+
+            <a href="05-vote-progression.html" class="card">
+                <div class="card-icon">📈</div>
+                <div class="card-title">Vote Progression</div>
+                <div class="card-description">How vote counts grew through each tournament round</div>
+            </a>
+
+            <a href="06-all-match-results.html" class="card">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">All Match Results</div>
+                <div class="card-description">Winner vs loser votes for all 7 matches</div>
+            </a>
+
+            <a href="07-match-competitiveness.html" class="card">
+                <div class="card-icon">🎲</div>
+                <div class="card-title">Match Competitiveness</div>
+                <div class="card-description">Analysis of close matches vs blowouts</div>
+            </a>
+
+            <a href="08-judge-scores-by-category.html" class="card">
+                <div class="card-icon">🏅</div>
+                <div class="card-title">Judge Scores by Category</div>
+                <div class="card-description">Detailed breakdown of all scoring categories</div>
+            </a>
+        </div>
+
+        <div style="background: white; border-radius: 15px; padding: 25px; margin-top: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+            <h3 style="color: #6b4423; margin-top: 0;">📝 Tournament Highlights</h3>
+            <ul style="color: #666; line-height: 1.8;">
+                <li><strong>Most Competitive Match:</strong> Peppermint Dream vs Salted Caramel Swirl (only 14 vote difference!)</li>
+                <li><strong>Biggest Upset:</strong> Dark Chocolate Decadence defeated White Chocolate Wonder by 73 votes</li>
+                <li><strong>Highest Turnout:</strong> Championship Final with 1,301 total votes</li>
+                <li><strong>Peak Voting:</strong> Evening session with 2,156 votes (40.7% of total)</li>
+                <li><strong>Judge Favorite:</strong> Dark Chocolate Decadence scored perfect 10s in Richness and Presentation</li>
+                <li><strong>Most Creative:</strong> Spicy Mexican Mocha earned 9/10 for creativity</li>
+                <li><strong>Sweetest:</strong> White Chocolate Wonder scored a perfect 10/10 for sweetness</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; color: white; margin-top: 40px; padding: 20px;">
+            <p style="font-size: 0.9em;">Created for the Winter Festival Awards Ceremony • December 3, 2025</p>
+            <p style="font-size: 0.8em;">🎉 Congratulations to all participants! 🎉</p>
+        </div>
+    </div>
+</body>
+</html>
