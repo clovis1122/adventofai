@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Festival 2025 | Magical Holiday Celebration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Snowflake animation */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #764ba2;
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section {
+            background: white;
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 0.5rem;
+        }
+
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .highlight-card h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .highlight-card p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .countdown {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #667eea;
+            font-weight: bold;
+            padding: 2rem;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            color: #764ba2;
+            margin-top: 1rem;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .testimonials {
+            margin-top: 2rem;
+        }
+
+        .testimonial {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            text-align: right;
+            color: #764ba2;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: #667eea;
+        }
+
+        .emoji {
+            font-size: 2rem;
+            margin: 0 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .highlights {
+                grid-template-columns: 1fr;
+            }
+
+            .countdown {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Snowflakes -->
+    <div id="snowflakes"></div>
+
+    <header>
+        <h1>❄️ Winter Festival 2025 ❄️</h1>
+        <p class="subtitle">A Magical Holiday Celebration</p>
+    </header>
+
+    <div class="container">
+        <!-- Countdown Section -->
+        <div class="countdown" id="countdown">
+            <div id="timer"></div>
+            <div class="countdown-label">Until Next Year's Festival</div>
+        </div>
+
+        <!-- About Section -->
+        <section class="section">
+            <h2>🎄 Welcome to Our Winter Wonderland</h2>
+            <p style="line-height: 1.8; font-size: 1.1rem;">
+                Join us for the most magical winter celebration of the year! Experience the warmth of community, 
+                the joy of the season, and unforgettable memories in our cozy winter wonderland. From enchanting 
+                fortune telling to heartwarming storytelling and the finest hot cocoa you've ever tasted, this 
+                year's festival has something special for everyone.
+            </p>
+        </section>
+
+        <!-- Highlights Section -->
+        <section class="section">
+            <h2>✨ This Year's Highlights</h2>
+            <div class="highlights">
+                <div class="highlight-card">
+                    <h3>🔮 Fortune Telling</h3>
+                    <p>
+                        Step into the mystical tent and discover what the future holds! Our talented fortune tellers 
+                        use ancient wisdom and intuition to provide insights into your year ahead. Crystal balls, 
+                        tarot cards, and palm readings await you.
+                    </p>
+                </div>
+
+                <div class="highlight-card">
+                    <h3>📚 Storytelling Booth</h3>
+                    <p>
+                        Gather 'round the fireplace as master storytellers weave tales of winter magic, holiday 
+                        traditions, and heartwarming adventures. Perfect for families and anyone who loves a good 
+                        story on a cold winter night.
+                    </p>
+                </div>
+
+                <div class="highlight-card">
+                    <h3>☕ Cocoa Crisis (Averted!)</h3>
+                    <p>
+                        After a dramatic cocoa shortage scare, we're delighted to offer the finest hot chocolate 
+                        in town! Rich, creamy, and perfectly spiced, topped with handmade marshmallows and a sprinkle 
+                        of magic. A festival favorite!
+                    </p>
+                </div>
+
+                <div class="highlight-card">
+                    <h3>🎨 Winter Crafts</h3>
+                    <p>
+                        Create your own winter memories with our craft stations! Make snowflake ornaments, 
+                        personalized holiday cards, and take home a piece of the festival magic.
+                    </p>
+                </div>
+
+                <div class="highlight-card">
+                    <h3>🎵 Live Music</h3>
+                    <p>
+                        Enjoy carolers, acoustic performances, and holiday classics that warm the heart. 
+                        Local musicians bring the festive spirit to life throughout the day.
+                    </p>
+                </div>
+
+                <div class="highlight-card">
+                    <h3>🍪 Holiday Market</h3>
+                    <p>
+                        Browse unique gifts, homemade treats, and artisan crafts from local vendors. 
+                        Find the perfect present while supporting our community.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Gallery -->
+        <section class="section">
+            <h2>📸 Festival Memories</h2>
+            <div class="gallery">
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=500');" title="Hot Cocoa"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1482517967863-00e15c9b44be?w=500');" title="Winter Wonderland"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1513297887119-d46091b24bfa?w=500');" title="Cozy Lights"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1576919228236-a097c32a5cd4?w=500');" title="Festival Fun"></div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="section">
+            <h2>💬 What People Are Saying</h2>
+            <div class="testimonials">
+                <div class="testimonial">
+                    "The fortune teller predicted I'd find love this winter, and I met my partner at the cocoa stand! 
+                    This festival is truly magical!" 
+                    <div class="testimonial-author">- Sarah M.</div>
+                </div>
+                <div class="testimonial">
+                    "My kids absolutely loved the storytelling booth. The storyteller had everyone captivated for 
+                    hours. We can't wait for next year!" 
+                    <div class="testimonial-author">- Mike R.</div>
+                </div>
+                <div class="testimonial">
+                    "Best hot cocoa I've ever had! After hearing about the cocoa crisis, I was worried, but they 
+                    really delivered. Five stars!" 
+                    <div class="testimonial-author">- Emily T.</div>
+                </div>
+                <div class="testimonial">
+                    "A wonderful community event that brings everyone together. The winter crafts were a hit with 
+                    my family. Beautiful atmosphere!" 
+                    <div class="testimonial-author">- James L.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Info -->
+        <section class="section">
+            <h2>📍 Event Information</h2>
+            <p style="line-height: 2; font-size: 1.1rem;">
+                <strong>📅 Dates:</strong> December 20-23, 2025<br>
+                <strong>🕐 Hours:</strong> 10:00 AM - 8:00 PM Daily<br>
+                <strong>📍 Location:</strong> Town Square, Main Street<br>
+                <strong>🎟️ Admission:</strong> Free! (Some activities may have small fees)<br>
+                <strong>🚗 Parking:</strong> Available at City Hall & Community Center<br>
+                <strong>♿ Accessibility:</strong> Fully wheelchair accessible
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+            <span class="emoji">⛄</span>
+            <span class="emoji">🎁</span>
+            <span class="emoji">❄️</span>
+        </p>
+        <p>&copy; 2025 Winter Festival. Made with ❤️ and hot cocoa.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">See you next winter! 🎄</p>
+    </footer>
+
+    <script>
+        // Create snowflakes
+        function createSnowflakes() {
+            const snowflakeContainer = document.getElementById('snowflakes');
+            const snowflakeChars = ['❄', '❅', '❆'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.animationDelay = Math.random() * 5 + 's';
+                snowflake.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                snowflakeContainer.appendChild(snowflake);
+            }
+        }
+
+        // Countdown timer
+        function updateCountdown() {
+            const nextFestival = new Date('December 20, 2025 10:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = nextFestival - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('timer').innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                document.getElementById('timer').innerHTML = "🎉 FESTIVAL IS HERE! 🎉";
+            }
+        }
+
+        // Initialize
+        createSnowflakes();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
