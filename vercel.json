@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "name": "winter-festival-2025",
+  "rewrites": [
+    {
+      "source": "/day-4-festival-website",
+      "destination": "/day-4-festival-website/index.html"
+    },
+    {
+      "source": "/day-5-gesture-tracker",
+      "destination": "/day-5-gesture-tracker/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
+}

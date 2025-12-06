@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Festival 2025 - Advent of AI Projects</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .projects {
+            display: grid;
+            gap: 25px;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: white;
+            display: block;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+        }
+
+        .project-card h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .project-card p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .emoji {
+            font-size: 1.5em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎄 Winter Festival 2025</h1>
+        <p class="subtitle">Advent of AI - Interactive Projects</p>
+
+        <div class="projects">
+            <a href="/day-4-festival-website" class="project-card">
+                <h2>
+                    <span class="emoji">🎪</span>
+                    Day 4: Festival Website
+                </h2>
+                <p>
+                    An interactive winter festival website featuring multiple themed booths, 
+                    dynamic countdown timer, and beautiful animations. Experience fortune telling, 
+                    storytelling, hot cocoa, and more!
+                </p>
+                <div class="project-tags">
+                    <span class="tag">HTML/CSS/JS</span>
+                    <span class="tag">Animations</span>
+                    <span class="tag">Interactive</span>
+                    <span class="tag">Multi-page</span>
+                </div>
+            </a>
+
+            <a href="/day-5-gesture-tracker" class="project-card">
+                <h2>
+                    <span class="emoji">✈️</span>
+                    Day 5: Gesture-Controlled Flight Tracker
+                </h2>
+                <p>
+                    Control real-time flight tracking with hand gestures! Uses MediaPipe for 
+                    gesture recognition and OpenSky API for live flight data. Open your hand 
+                    for previous flight, close your fist for next flight.
+                </p>
+                <div class="project-tags">
+                    <span class="tag">MediaPipe</span>
+                    <span class="tag">Hand Tracking</span>
+                    <span class="tag">Real-time API</span>
+                    <span class="tag">WebCam</span>
+                </div>
+            </a>
+        </div>
+
+        <footer>
+            <p>Built with ❤️ for Advent of AI 2025</p>
+            <p><a href="https://github.com/yourusername/advertofai" target="_blank">View on GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
