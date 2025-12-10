@@ -58,8 +58,8 @@ jobs:
         run: |
           mkdir -p ~/.config/goose
           cat <<EOF > ~/.config/goose/config.yaml
-          GOOSE_PROVIDER__OPENROUTER__API_KEY: ${OPENROUTER_API_KEY}
-          GOOSE_MODEL: openrouter/anthropic/claude-3.5-sonnet
+          GOOSE_PROVIDER: openrouter
+          GOOSE_MODEL: anthropic/claude-sonnet-4.5
           keyring: false
           EOF
 
