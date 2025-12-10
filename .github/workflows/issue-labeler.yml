@@ -2,7 +2,7 @@ name: Issue Auto-Labeler with Goose
 
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened]
 
 permissions:
   issues: write
@@ -11,6 +11,8 @@ permissions:
 jobs:
   label-issue:
     runs-on: ubuntu-latest
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -53,14 +55,11 @@ jobs:
           echo "/home/runner/.local/bin" >> $GITHUB_PATH
 
       - name: Configure Goose
-        env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
           mkdir -p ~/.config/goose
           cat <<EOF > ~/.config/goose/config.yaml
           GOOSE_PROVIDER: openrouter
           GOOSE_MODEL: anthropic/claude-sonnet-4.5
-          GOOSE_DISABLE_KEYRING: true
           EOF
 
       - name: Analyze Issue with Goose
