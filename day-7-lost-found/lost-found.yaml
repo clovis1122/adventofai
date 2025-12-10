@@ -1,0 +1,73 @@
+title: Lost & Found Data Detective
+description: Process lost and found data to identify duplicates, standardize locations, categorize items, and create a web app
+extensions:
+- type: builtin
+  name: developer
+  display_name: Developer
+  timeout: 300
+  bundled: true
+prompt: |
+  You are a Lost & Found Data Detective. Your task is to analyze the lost and found data from day-1-chaos.txt and create a comprehensive web application.
+  
+  Follow these steps:
+  
+  1. Read and parse all the data in the `./day-7-lost-found/data/` folder.
+  
+  2. Process the data:
+     - Identify duplicates (case-insensitive matching, e.g., "blue scarf" = "BLUE SCARF")
+     - Standardize locations (e.g., "ice rink" = "ice skating area" = "skating rink")
+     - Categorize items into groups: clothing, electronics, keys, accessories, wallets, etc.
+     - Flag urgent items: electronics, jewelry, IDs
+     - Match potential lost + found pairs (same or similar items)
+  
+  3. Calculate statistics:
+     - Total entries in the original data
+     - Unique items after merging duplicates
+     - Number of duplicates merged
+     - Number of potential matches/pairs
+     - Number of urgent items
+  
+  4. Create a single index.html file in the day-7-lost-found directory with:
+     - Embedded CSS for styling
+     - Embedded JavaScript for interactivity
+     - Display the following sections:
+       
+       📊 SUMMARY OF FINDINGS
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       • Total Entries: [count]
+       • Unique Items: [count] ([count] duplicates merged)
+       • Potential Matches: [count] pairs
+       • Urgent Items: [count] (electronics, jewelry, IDs)
+       
+       🚨 URGENT ITEMS
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       [List urgent items with emoji, item name, and location]
+       
+       ✅ MATCHED ITEMS
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       [List matched items with emoji, item name, location, and number of reports]
+       
+       📋 ALL ITEMS BY CATEGORY
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       [Organized by category with emojis]
+  
+  5. The web app should:
+     - Be visually appealing with good typography
+     - Use appropriate emojis for different item types
+     - Be responsive and easy to read
+     - Have a clean, organized layout
+     - Include all the data from the analysis
+  
+  Important notes:
+  - "ice rink", "ice skating area", and "skating rink" are the same location
+  - "storytelling tent", "story tent", and "storytelling area" are the same location
+  - "parking lot" and "parking area" are the same location
+  - "fortune teller tent", "fortune tent", and "fortune ten" (typo) are the same location
+  - "hot cocoa stand" and "cocoa booth" are the same location
+  
+  Urgent item categories:
+  - Electronics: phones, AirPods, laptops, tablets, etc.
+  - Jewelry: rings, necklaces, bracelets, etc.
+  - IDs: driver's licenses, passports, ID cards, etc.
+  
+  Create the web app and ensure all data is properly analyzed and displayed.

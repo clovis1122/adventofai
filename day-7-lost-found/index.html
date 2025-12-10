@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❄️ Lost & Found Data Detective | Winter Festival</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #2d3748;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #5a67d8;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2.2em;
+            font-weight: bold;
+        }
+
+        .item-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .item {
+            background: #f7fafc;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .item:hover {
+            background: #edf2f7;
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-emoji {
+            font-size: 1.8em;
+            min-width: 40px;
+        }
+
+        .item-content {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .item-location {
+            color: #718096;
+            font-size: 0.95em;
+        }
+
+        .item-badge {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .urgent-item {
+            border-left-color: #f56565;
+            background: #fff5f5;
+        }
+
+        .urgent-item:hover {
+            background: #fed7d7;
+        }
+
+        .matched-item {
+            border-left-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .matched-item:hover {
+            background: #c6f6d5;
+        }
+
+        .category-section {
+            margin-bottom: 30px;
+        }
+
+        .category-title {
+            font-size: 1.3em;
+            color: #5a67d8;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge-urgent {
+            background: #f56565;
+        }
+
+        .badge-matched {
+            background: #48bb78;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            opacity: 0.9;
+        }
+
+        .divider {
+            margin: 25px 0;
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #667eea, transparent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>❄️ Lost & Found Data Detective</h1>
+            <p>Winter Festival Opening Day Analysis</p>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="section">
+            <div class="section-title">📊 SUMMARY OF FINDINGS</div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Entries</div>
+                    <div class="stat-value">20</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Unique Items</div>
+                    <div class="stat-value">10</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Duplicates Merged</div>
+                    <div class="stat-value">10</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Matched Pairs</div>
+                    <div class="stat-value">10</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Urgent Items</div>
+                    <div class="stat-value">3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Urgent Items Section -->
+        <div class="section">
+            <div class="section-title">🚨 URGENT ITEMS</div>
+            <p style="color: #718096; margin-bottom: 20px;">Electronics, jewelry, and IDs requiring immediate attention</p>
+            <ul class="item-list">
+                <li class="item urgent-item">
+                    <div class="item-emoji">📱</div>
+                    <div class="item-content">
+                        <div class="item-name">iPhone 13 Pro (Black Case)</div>
+                        <div class="item-location">📍 Storytelling Tent</div>
+                    </div>
+                    <div class="item-badge badge-urgent">2 reports</div>
+                </li>
+                <li class="item urgent-item">
+                    <div class="item-emoji">🎧</div>
+                    <div class="item-content">
+                        <div class="item-name">AirPods Case (White)</div>
+                        <div class="item-location">📍 Ice Rink</div>
+                    </div>
+                    <div class="item-badge badge-urgent">2 reports</div>
+                </li>
+                <li class="item urgent-item">
+                    <div class="item-emoji">💳</div>
+                    <div class="item-content">
+                        <div class="item-name">Brown Leather Wallet (Men's)</div>
+                        <div class="item-location">📍 Fortune Teller Tent</div>
+                    </div>
+                    <div class="item-badge badge-urgent">2 reports</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Matched Items Section -->
+        <div class="section">
+            <div class="section-title">✅ MATCHED ITEMS</div>
+            <p style="color: #718096; margin-bottom: 20px;">Duplicate reports successfully merged</p>
+            <ul class="item-list">
+                <li class="item matched-item">
+                    <div class="item-emoji">🧣</div>
+                    <div class="item-content">
+                        <div class="item-name">Blue Scarf</div>
+                        <div class="item-location">📍 Ice Rink</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">🧤</div>
+                    <div class="item-content">
+                        <div class="item-name">Child's Red Mitten (Left Hand)</div>
+                        <div class="item-location">📍 Hot Cocoa Stand</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">📱</div>
+                    <div class="item-content">
+                        <div class="item-name">iPhone 13 Pro (Black Case)</div>
+                        <div class="item-location">📍 Storytelling Tent</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">🔑</div>
+                    <div class="item-content">
+                        <div class="item-name">Toyota Keys + House Keys</div>
+                        <div class="item-location">📍 Parking Lot</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">💳</div>
+                    <div class="item-content">
+                        <div class="item-name">Brown Leather Wallet (Men's)</div>
+                        <div class="item-location">📍 Fortune Teller Tent</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">🎩</div>
+                    <div class="item-content">
+                        <div class="item-name">Purple Beanie Hat (Knit)</div>
+                        <div class="item-location">📍 Ice Rink</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">🧣</div>
+                    <div class="item-content">
+                        <div class="item-name">Green Scarf (Snowflake Pattern)</div>
+                        <div class="item-location">📍 Storytelling Tent</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">🧤</div>
+                    <div class="item-content">
+                        <div class="item-name">Black Gloves (Pair)</div>
+                        <div class="item-location">📍 Parking Lot</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">🎧</div>
+                    <div class="item-content">
+                        <div class="item-name">AirPods Case (White)</div>
+                        <div class="item-location">📍 Ice Rink</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+                <li class="item matched-item">
+                    <div class="item-emoji">📱</div>
+                    <div class="item-content">
+                        <div class="item-name">Pink Phone Case (Empty)</div>
+                        <div class="item-location">📍 Fortune Teller Tent</div>
+                    </div>
+                    <div class="item-badge badge-matched">2 reports</div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- All Items by Category -->
+        <div class="section">
+            <div class="section-title">📋 ALL ITEMS BY CATEGORY</div>
+            
+            <!-- Clothing -->
+            <div class="category-section">
+                <div class="category-title">👕 Clothing & Accessories</div>
+                <ul class="item-list">
+                    <li class="item matched-item">
+                        <div class="item-emoji">🧣</div>
+                        <div class="item-content">
+                            <div class="item-name">Blue Scarf</div>
+                            <div class="item-location">📍 Ice Rink</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                    <li class="item matched-item">
+                        <div class="item-emoji">🧣</div>
+                        <div class="item-content">
+                            <div class="item-name">Green Scarf (Snowflake Pattern)</div>
+                            <div class="item-location">📍 Storytelling Tent</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                    <li class="item matched-item">
+                        <div class="item-emoji">🧤</div>
+                        <div class="item-content">
+                            <div class="item-name">Child's Red Mitten (Left Hand)</div>
+                            <div class="item-location">📍 Hot Cocoa Stand</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                    <li class="item matched-item">
+                        <div class="item-emoji">🧤</div>
+                        <div class="item-content">
+                            <div class="item-name">Black Gloves (Pair)</div>
+                            <div class="item-location">📍 Parking Lot</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                    <li class="item matched-item">
+                        <div class="item-emoji">🎩</div>
+                        <div class="item-content">
+                            <div class="item-name">Purple Beanie Hat (Knit)</div>
+                            <div class="item-location">📍 Ice Rink</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Electronics -->
+            <div class="category-section">
+                <div class="category-title">📱 Electronics</div>
+                <ul class="item-list">
+                    <li class="item urgent-item matched-item">
+                        <div class="item-emoji">📱</div>
+                        <div class="item-content">
+                            <div class="item-name">iPhone 13 Pro (Black Case)</div>
+                            <div class="item-location">📍 Storytelling Tent</div>
+                        </div>
+                        <div class="item-badge badge-urgent">2 reports</div>
+                    </li>
+                    <li class="item urgent-item matched-item">
+                        <div class="item-emoji">🎧</div>
+                        <div class="item-content">
+                            <div class="item-name">AirPods Case (White)</div>
+                            <div class="item-location">📍 Ice Rink</div>
+                        </div>
+                        <div class="item-badge badge-urgent">2 reports</div>
+                    </li>
+                    <li class="item matched-item">
+                        <div class="item-emoji">📱</div>
+                        <div class="item-content">
+                            <div class="item-name">Pink Phone Case (Empty)</div>
+                            <div class="item-location">📍 Fortune Teller Tent</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Keys -->
+            <div class="category-section">
+                <div class="category-title">🔑 Keys</div>
+                <ul class="item-list">
+                    <li class="item matched-item">
+                        <div class="item-emoji">🔑</div>
+                        <div class="item-content">
+                            <div class="item-name">Toyota Keys + House Keys</div>
+                            <div class="item-location">📍 Parking Lot</div>
+                        </div>
+                        <div class="item-badge badge-matched">2 reports</div>
+                    </li>
+                </ul>
+            </div>
+
+            <hr class="divider">
+
+            <!-- Wallets & IDs -->
+            <div class="category-section">
+                <div class="category-title">💳 Wallets & Personal Items</div>
+                <ul class="item-list">
+                    <li class="item urgent-item matched-item">
+                        <div class="item-emoji">💳</div>
+                        <div class="item-content">
+                            <div class="item-name">Brown Leather Wallet (Men's)</div>
+                            <div class="item-location">📍 Fortune Teller Tent</div>
+                        </div>
+                        <div class="item-badge badge-urgent">2 reports</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>❄️ Winter Festival Lost & Found | Data processed on Opening Day</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">All locations standardized • Duplicates merged • Urgent items flagged</p>
+        </div>
+    </div>
+
+    <script>
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        // Log statistics to console
+        console.log('Lost & Found Statistics:');
+        console.log('========================');
+        console.log('Total Entries: 20');
+        console.log('Unique Items: 10');
+        console.log('Duplicates Merged: 10');
+        console.log('Matched Pairs: 10');
+        console.log('Urgent Items: 3');
+    </script>
+</body>
+</html>
