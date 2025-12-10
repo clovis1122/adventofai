@@ -60,7 +60,7 @@ jobs:
           cat <<EOF > ~/.config/goose/config.yaml
           GOOSE_PROVIDER: openrouter
           GOOSE_MODEL: anthropic/claude-sonnet-4.5
-          keyring: false
+          GOOSE_DISABLE_KEYRING: true
           EOF
 
       - name: Analyze Issue with Goose
