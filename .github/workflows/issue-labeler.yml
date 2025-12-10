@@ -45,41 +45,32 @@ jobs:
               }
             }
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install Goose
+      - name: Install Goose CLI
         run: |
-          pip install goose-ai
+          mkdir -p /home/runner/.local/bin
+          curl -fsSL https://github.com/block/goose/releases/download/stable/download_cli.sh \
+            | CONFIGURE=false GOOSE_BIN_DIR=/home/runner/.local/bin bash
+          echo "/home/runner/.local/bin" >> $GITHUB_PATH
 
-      - name: Analyze Issue with Goose
-        id: analyze
+      - name: Configure Goose
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: |
-          cat > analyze_issue.py << 'PYTHON_SCRIPT'
-          import os
-          import json
-          import sys
-          from goose.cli.session import Session
-          from goose.profile import Profile
-          
-          issue_title = os.environ.get('ISSUE_TITLE', '')
-          issue_body = os.environ.get('ISSUE_BODY', '')
-          
-          # Configure Goose with OpenRouter
-          profile = Profile(
-              provider="openrouter",
-              processor="openrouter/anthropic/claude-3.5-sonnet",
-              accelerator="openrouter/anthropic/claude-3.5-sonnet",
-          )
-          
-          prompt = f"""Analyze the following GitHub issue and categorize it with one or more of these labels: Urgent, Feature, Question.
+          mkdir -p ~/.config/goose
+          cat <<EOF > ~/.config/goose/config.yaml
+          GOOSE_PROVIDER__OPENROUTER__API_KEY: ${OPENROUTER_API_KEY}
+          GOOSE_MODEL: openrouter/anthropic/claude-3.5-sonnet
+          keyring: false
+          EOF
 
-          Issue Title: {issue_title}
-          Issue Body: {issue_body}
+      - name: Analyze Issue with Goose
+        id: analyze
+        run: |
+          cat > instructions.txt << 'EOF'
+          Analyze the following GitHub issue and categorize it with one or more of these labels: Urgent, Feature, Question.
+
+          Issue Title: ${{ github.event.issue.title }}
+          Issue Body: ${{ github.event.issue.body }}
 
           Guidelines:
           - Urgent: Critical bugs, security issues, production problems, blockers
@@ -87,35 +78,27 @@ jobs:
           - Question: Questions, help requests, clarification needed
 
           Respond with ONLY a JSON object in this exact format (no other text):
-          {{"labels": ["Label1", "Label2"], "reasoning": "Brief explanation"}}
-          """
+          {"labels": ["Label1", "Label2"], "reasoning": "Brief explanation"}
+          EOF
           
-          session = Session(profile=profile)
-          response = session.exchange(prompt)
+          goose run --instructions instructions.txt | \
+            sed -E 's/\x1B\[[0-9;]*[mK]//g' | \
+            grep -v "logging to /home/runner/.config/goose/sessions/" | \
+            grep -v "^starting session" | \
+            grep -v "^Closing session" | \
+            sed 's/[[:space:]]*$//' \
+            > response.txt
+          
+          cat response.txt
           
           # Extract JSON from response
-          response_text = str(response)
-          try:
-              # Try to find JSON in the response
-              start = response_text.find('{')
-              end = response_text.rfind('}') + 1
-              if start != -1 and end > start:
-                  json_str = response_text[start:end]
-                  result = json.loads(json_str)
-                  print(json.dumps(result))
-              else:
-                  # Fallback to Question if parsing fails
-                  print(json.dumps({"labels": ["Question"], "reasoning": "Could not parse AI response"}))
-          except Exception as e:
-              print(json.dumps({"labels": ["Question"], "reasoning": f"Error parsing response: {str(e)}"}))
-          PYTHON_SCRIPT
-          
-          export ISSUE_TITLE="${{ github.event.issue.title }}"
-          export ISSUE_BODY="${{ github.event.issue.body }}"
-          
-          python analyze_issue.py > analysis.json
-          cat analysis.json
-          echo "analysis=$(cat analysis.json)" >> $GITHUB_OUTPUT
+          if grep -o '{[^}]*"labels"[^}]*}' response.txt > analysis.json 2>/dev/null; then
+            cat analysis.json
+            echo "analysis=$(cat analysis.json)" >> $GITHUB_OUTPUT
+          else
+            echo '{"labels": ["Question"], "reasoning": "Could not parse AI response"}' > analysis.json
+            echo "analysis=$(cat analysis.json)" >> $GITHUB_OUTPUT
+          fi
 
       - name: Apply Labels and Comment
         uses: actions/github-script@v7
