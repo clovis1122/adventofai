@@ -1,4 +1,4 @@
-name: Issue Auto-Labeler
+name: Issue Auto-Labeler with Goose
 
 on:
   issues:
@@ -14,80 +14,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
-
-      - name: Analyze and Label Issue
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const issue = context.payload.issue;
-            const title = issue.title.toLowerCase();
-            const body = (issue.body || '').toLowerCase();
-            const fullText = title + ' ' + body;
-            
-            const labels = [];
-            
-            // Check for Urgent indicators
-            const urgentKeywords = [
-              'urgent', 'critical', 'asap', 'emergency', 'immediately',
-              'blocker', 'blocking', 'broken', 'crash', 'down', 'not working',
-              'production', 'security', 'vulnerability', 'bug'
-            ];
-            
-            if (urgentKeywords.some(keyword => fullText.includes(keyword))) {
-              labels.push('Urgent');
-            }
-            
-            // Check for Feature indicators
-            const featureKeywords = [
-              'feature', 'enhancement', 'add', 'implement', 'improve',
-              'support for', 'would like', 'could we', 'can we',
-              'new', 'ability to', 'integration', 'functionality'
-            ];
-            
-            if (featureKeywords.some(keyword => fullText.includes(keyword))) {
-              labels.push('Feature');
-            }
-            
-            // Check for Question indicators
-            const questionKeywords = [
-              'how', 'why', 'what', 'when', 'where', 'who',
-              'question', '?', 'help', 'documentation', 'explain',
-              'understand', 'clarify', 'wondering', 'confused'
-            ];
-            
-            if (questionKeywords.some(keyword => fullText.includes(keyword))) {
-              labels.push('Question');
-            }
-            
-            // If no labels matched, add a default label
-            if (labels.length === 0) {
-              labels.push('Question');
-            }
-            
-            // Apply labels to the issue
-            if (labels.length > 0) {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                labels: labels
-              });
-              
-              console.log(`Applied labels: ${labels.join(', ')}`);
-            }
-            
-            // Post a comment with analysis
-            const comment = `🤖 **Automated Analysis**\n\n` +
-              `This issue has been automatically analyzed and labeled as: **${labels.join(', ')}**\n\n` +
-              `If you believe this categorization is incorrect, please feel free to adjust the labels manually.`;
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body: comment
-            });
 
       - name: Create labels if they don't exist
         uses: actions/github-script@v7
@@ -118,3 +44,118 @@ jobs:
                 }
               }
             }
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Goose
+        run: |
+          pip install goose-ai
+
+      - name: Analyze Issue with Goose
+        id: analyze
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          cat > analyze_issue.py << 'PYTHON_SCRIPT'
+          import os
+          import json
+          import sys
+          from goose.cli.session import Session
+          from goose.profile import Profile
+          
+          issue_title = os.environ.get('ISSUE_TITLE', '')
+          issue_body = os.environ.get('ISSUE_BODY', '')
+          
+          # Configure Goose with OpenRouter
+          profile = Profile(
+              provider="openrouter",
+              processor="openrouter/anthropic/claude-3.5-sonnet",
+              accelerator="openrouter/anthropic/claude-3.5-sonnet",
+          )
+          
+          prompt = f"""Analyze the following GitHub issue and categorize it with one or more of these labels: Urgent, Feature, Question.
+
+          Issue Title: {issue_title}
+          Issue Body: {issue_body}
+
+          Guidelines:
+          - Urgent: Critical bugs, security issues, production problems, blockers
+          - Feature: Feature requests, enhancements, new functionality
+          - Question: Questions, help requests, clarification needed
+
+          Respond with ONLY a JSON object in this exact format (no other text):
+          {{"labels": ["Label1", "Label2"], "reasoning": "Brief explanation"}}
+          """
+          
+          session = Session(profile=profile)
+          response = session.exchange(prompt)
+          
+          # Extract JSON from response
+          response_text = str(response)
+          try:
+              # Try to find JSON in the response
+              start = response_text.find('{')
+              end = response_text.rfind('}') + 1
+              if start != -1 and end > start:
+                  json_str = response_text[start:end]
+                  result = json.loads(json_str)
+                  print(json.dumps(result))
+              else:
+                  # Fallback to Question if parsing fails
+                  print(json.dumps({"labels": ["Question"], "reasoning": "Could not parse AI response"}))
+          except Exception as e:
+              print(json.dumps({"labels": ["Question"], "reasoning": f"Error parsing response: {str(e)}"}))
+          PYTHON_SCRIPT
+          
+          export ISSUE_TITLE="${{ github.event.issue.title }}"
+          export ISSUE_BODY="${{ github.event.issue.body }}"
+          
+          python analyze_issue.py > analysis.json
+          cat analysis.json
+          echo "analysis=$(cat analysis.json)" >> $GITHUB_OUTPUT
+
+      - name: Apply Labels and Comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const analysisStr = `${{ steps.analyze.outputs.analysis }}`;
+            let analysis;
+            
+            try {
+              analysis = JSON.parse(analysisStr);
+            } catch (error) {
+              console.error('Failed to parse analysis:', error);
+              analysis = { labels: ['Question'], reasoning: 'Failed to analyze issue' };
+            }
+            
+            const labels = analysis.labels || ['Question'];
+            const reasoning = analysis.reasoning || 'Automated analysis';
+            
+            // Apply labels to the issue
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.issue.number,
+                labels: labels
+              });
+              
+              console.log(`Applied labels: ${labels.join(', ')}`);
+            }
+            
+            // Post a comment with analysis
+            const comment = `🤖 **AI-Powered Analysis (via Goose)**\n\n` +
+              `This issue has been analyzed and labeled as: **${labels.join(', ')}**\n\n` +
+              `**Reasoning:** ${reasoning}\n\n` +
+              `If you believe this categorization is incorrect, please feel free to adjust the labels manually.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: comment
+            });
