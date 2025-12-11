@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Joe's Hot Cocoa",
+    "location": "Main Plaza",
+    "cuisine": "Hot Drinks Pastries"
+  },
+  {
+    "name": "Taco Truck Del Fuego",
+    "location": "North Entrance",
+    "cuisine": "Mexican Food"
+  },
+  {
+    "name": "Sweet Treats Bakery",
+    "location": "Near The Ice Rink",
+    "cuisine": "Cookies"
+  },
+  {
+    "name": "Pierogi Palace",
+    "location": "East Side",
+    "cuisine": "Polish Food"
+  },
+  {
+    "name": "Waffle Wonderland",
+    "location": "Next To Storytelling Tent",
+    "cuisine": "Waffles"
+  },
+  {
+    "name": "Mama's Meatballs",
+    "location": "Food Court Area",
+    "cuisine": "Italian"
+  },
+  {
+    "name": "The Pretzel Pretender",
+    "location": "West Plaza",
+    "cuisine": "Pretzels"
+  },
+  {
+    "name": "Curry In A Hurry",
+    "location": "Mobile Cart Roams Around",
+    "cuisine": "Curry"
+  },
+  {
+    "name": "Sushi On Ice",
+    "location": "Near Skating Rink",
+    "cuisine": "Sushi"
+  },
+  {
+    "name": "Pizza Palace",
+    "location": "Main Stage Area",
+    "cuisine": "Pizza Slices"
+  }
+]
