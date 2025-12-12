@@ -1,0 +1,141 @@
+title: Gift Tag Generator
+name: gift-tag-generator
+description: Generate personalized, print-ready gift tags with customizable styles, multilingual support, and QR codes
+
+parameters:
+  - key: recipient_name
+    input_type: string
+    requirement: required
+    description: "Name of the gift recipient"
+  
+  - key: gift_description
+    input_type: string
+    requirement: required
+    description: "Description of the gift"
+  
+  - key: sender_name
+    input_type: string
+    requirement: required
+    description: "Name of the gift sender"
+  
+  - key: tag_style
+    input_type: string
+    requirement: optional
+    default: "elegant"
+    description: "Visual style of the tag (elegant, playful, minimalist, festive)"
+  
+  - key: include_poem
+    input_type: boolean
+    requirement: optional
+    default: "false"
+    description: "Whether to include a poem on the tag"
+  
+  - key: qr_message_url
+    input_type: string
+    requirement: optional
+    default: ""
+    description: "URL for QR code embedding (optional)"
+  
+  - key: gift_size
+    input_type: string
+    requirement: optional
+    default: "medium"
+    description: "Size of the gift affects tag layout (small, medium, large)"
+  
+  - key: favorite_color
+    input_type: string
+    requirement: optional
+    default: ""
+    description: "Recipient's favorite color"
+  
+  - key: language
+    input_type: string
+    requirement: optional
+    default: "English"
+    description: "Language for greeting and poem"
+  
+  - key: tone
+    input_type: string
+    requirement: optional
+    default: "heartfelt"
+    description: "Tone of the message (formal, casual, humorous, heartfelt)"
+
+prompt: |
+  You are a creative gift tag designer. Create a personalized, print-ready HTML gift tag with the following specifications:
+
+  **Recipient:** {{ recipient_name }}
+  **Gift:** {{ gift_description }}
+  **From:** {{ sender_name }}
+  **Style:** {{ tag_style }}
+  **Gift Size:** {{ gift_size }}
+  **Include Poem:** {{ include_poem }}
+  {% if qr_message_url %}**QR Code URL:** {{ qr_message_url }}{% endif %}
+  
+  **Recipient Preferences:**
+  {% if favorite_color %}- Favorite Color: {{ favorite_color }}{% endif %}
+  - Language: {{ language }}
+  - Tone: {{ tone }}
+
+  ## Requirements
+
+  ### 1. Dynamic Style-Driven Layout
+  Apply the **{{ tag_style }}** style throughout:
+  
+  - **elegant**: Serif fonts (Georgia, Garamond), gold/silver accents, subtle borders, sophisticated spacing, minimal emoji
+  - **playful**: Fun fonts (Comic Sans, Bubbly), bright colors, rounded corners, emojis, decorative elements
+  - **minimalist**: Clean sans-serif (Helvetica, Arial), lots of white space, simple black/white/gray palette, no emoji
+  - **festive**: Holiday colors (red, green, gold), decorative borders, seasonal emojis (🎄🎁❄️⭐), celebratory elements
+
+  ### 2. Multilingual Content
+  Generate greeting and poem (if requested) in **{{ language }}**:
+  - English: "To:", "From:", "Enjoy!"
+  - Spanish: "Para:", "De:", "¡Disfruta!"
+  - French: "Pour:", "De:", "Profitez!"
+  - Add more languages as appropriate
+
+  ### 3. QR Code Embedding
+  {% if qr_message_url %}
+  Generate a QR code for: {{ qr_message_url }}
+  - Use a QR code generation service (e.g., qrserver.com API)
+  - Embed inline in the HTML
+  - Position appropriately based on layout
+  {% endif %}
+
+  ### 4. Gift Size Adaptation
+  **{{ gift_size }}** size means:
+  - **small**: Compact layout (3x2 inches), minimal text, small fonts (10-12pt)
+  - **medium**: Balanced layout (4x3 inches), moderate text, medium fonts (12-14pt)
+  - **large**: Spacious layout (5x4 inches), more decorative elements, larger fonts (14-18pt)
+
+  ### 5. Context-Aware Poem
+  {% if include_poem %}
+  Create a poem that:
+  - Matches the **{{ tone }}** tone
+  - References the gift: **{{ gift_description }}**
+  - Fits the **{{ tag_style }}** style
+  - Is in **{{ language }}**
+  - Length: 2-4 lines for small, 4-6 lines for medium, 6-8 lines for large
+  {% endif %}
+
+  ### 6. Print-Ready HTML Output
+  Generate ONLY the gift tag HTML with:
+  - Valid HTML5 structure
+  - All CSS inline (no external stylesheets)
+  - Appropriate dimensions for printing
+  - Single tag layout (no preview wrappers)
+  - Page break properties for printing
+  - High quality, professional appearance
+
+  ## Color Integration
+  {% if favorite_color %}
+  Incorporate **{{ favorite_color }}** as an accent color where appropriate, while maintaining the overall {{ tag_style }} aesthetic.
+  {% endif %}
+
+  ## Output Format
+  Provide ONLY the complete HTML code for the gift tag. Save it to a file named based on the recipient name (e.g., `gift-tag-sarah.html`).
+  
+  Do not include any explanation or markdown code fences - just the pure HTML output saved to the file.
+
+extensions:
+  - type: builtin
+    name: developer

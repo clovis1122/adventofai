@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Etiqueta de Regalo - Marcus Rodriguez</title>
+    <style>
+        @page {
+            size: 4in 3in;
+            margin: 0;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', 'Garamond', serif;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .gift-tag {
+            width: 4in;
+            height: 3in;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border: 2px solid #1e3a5f;
+            box-shadow: inset 0 0 0 1px #d4af37, 0 2px 8px rgba(0,0,0,0.1);
+            page-break-after: always;
+            position: relative;
+            overflow: hidden;
+        }
+        .corner-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #d4af37;
+        }
+        .corner-decoration.top-left {
+            top: 8px;
+            left: 8px;
+            border-right: none;
+            border-bottom: none;
+        }
+        .corner-decoration.top-right {
+            top: 8px;
+            right: 8px;
+            border-left: none;
+            border-bottom: none;
+        }
+        .corner-decoration.bottom-left {
+            bottom: 8px;
+            left: 8px;
+            border-right: none;
+            border-top: none;
+        }
+        .corner-decoration.bottom-right {
+            bottom: 8px;
+            right: 8px;
+            border-left: none;
+            border-top: none;
+        }
+        .content {
+            padding: 24px;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #d4af37;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        .recipient-section {
+            margin-bottom: 10px;
+        }
+        .label {
+            font-size: 11pt;
+            color: #1e3a5f;
+            font-weight: normal;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .name {
+            font-size: 16pt;
+            color: #1e3a5f;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        .gift-info {
+            font-size: 12pt;
+            color: #4a5568;
+            font-style: italic;
+            text-align: center;
+            margin: 8px 0;
+        }
+        .poem {
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #2d3748;
+            text-align: center;
+            font-style: italic;
+            margin: 10px 0;
+            padding: 8px 12px;
+            background: rgba(30, 58, 95, 0.03);
+            border-left: 2px solid #d4af37;
+            border-right: 2px solid #d4af37;
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
+        }
+        .from-section {
+            flex: 1;
+        }
+        .from-label {
+            font-size: 10pt;
+            color: #1e3a5f;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .from-name {
+            font-size: 12pt;
+            color: #1e3a5f;
+            font-weight: bold;
+        }
+        .qr-section {
+            text-align: right;
+        }
+        .qr-code {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #d4af37;
+            padding: 3px;
+            background: white;
+        }
+        .enjoy-message {
+            font-size: 10pt;
+            color: #4a5568;
+            text-align: center;
+            font-style: italic;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gift-tag">
+        <div class="corner-decoration top-left"></div>
+        <div class="corner-decoration top-right"></div>
+        <div class="corner-decoration bottom-left"></div>
+        <div class="corner-decoration bottom-right"></div>
+        
+        <div class="content">
+            <div class="header">
+                <div class="recipient-section">
+                    <div class="label">PARA:</div>
+                    <div class="name">Marcus Rodriguez</div>
+                </div>
+            </div>
+            
+            <div class="gift-info">Micrófono Profesional</div>
+            
+            <div class="poem">
+                Su voz merece resonar con distinción,<br>
+                este micrófono captura cada entonación.<br>
+                Con calidad superior y elegancia sin par,<br>
+                sus palabras podrán el mundo inspirar.<br>
+                Que cada nota refleje su profesionalismo,<br>
+                y su talento brille con gran optimismo.
+            </div>
+            
+            <div class="enjoy-message">¡Disfruta!</div>
+            
+            <div class="footer">
+                <div class="from-section">
+                    <div class="from-label">DE:</div>
+                    <div class="from-name">Winter Festival Team</div>
+                </div>
+                <div class="qr-section">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://example.com/thank-you-marcus" alt="QR Code" class="qr-code">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
