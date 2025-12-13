@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Music Festival - December 25, 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .poster {
+            width: 210mm;
+            height: 297mm;
+            background: linear-gradient(135deg, #1a0a2e 0%, #0f0520 50%, #1a0a2e 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+            border-radius: 10px;
+        }
+
+        /* Animated background waves */
+        .wave-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .sound-wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .wave-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                #8B5CF6, 
+                #3B82F6, 
+                #EC4899, 
+                transparent);
+            animation: wave-move 8s infinite linear;
+        }
+
+        .wave-line:nth-child(1) { top: 20%; animation-delay: 0s; }
+        .wave-line:nth-child(2) { top: 40%; animation-delay: -2s; }
+        .wave-line:nth-child(3) { top: 60%; animation-delay: -4s; }
+        .wave-line:nth-child(4) { top: 80%; animation-delay: -6s; }
+
+        @keyframes wave-move {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0%); }
+        }
+
+        /* Floating musical notes */
+        .musical-notes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .note {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0.15;
+            animation: float-note 15s infinite ease-in-out;
+        }
+
+        .note:nth-child(1) { left: 10%; color: #8B5CF6; animation-delay: 0s; }
+        .note:nth-child(2) { left: 25%; color: #3B82F6; animation-delay: -3s; }
+        .note:nth-child(3) { left: 45%; color: #EC4899; animation-delay: -6s; }
+        .note:nth-child(4) { left: 65%; color: #8B5CF6; animation-delay: -9s; }
+        .note:nth-child(5) { left: 80%; color: #3B82F6; animation-delay: -12s; }
+
+        @keyframes float-note {
+            0%, 100% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            50% { transform: translateY(-20vh) rotate(360deg); }
+        }
+
+        /* Content container */
+        .content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Header section */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .icon-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            font-size: 3rem;
+        }
+
+        .icon {
+            animation: pulse 2s infinite;
+        }
+
+        .icon:nth-child(1) { color: #8B5CF6; animation-delay: 0s; }
+        .icon:nth-child(2) { color: #EC4899; animation-delay: 0.3s; }
+        .icon:nth-child(3) { color: #3B82F6; animation-delay: 0.6s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .event-name {
+            font-size: 5.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+            margin-bottom: 20px;
+            animation: title-glow 3s infinite alternate;
+        }
+
+        @keyframes title-glow {
+            0% { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.6)); }
+            100% { filter: drop-shadow(0 0 40px rgba(236, 72, 153, 0.8)); }
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+        /* Middle section - Details */
+        .details {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 40px 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .detail-item {
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-icon {
+            font-size: 3.5rem;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.4);
+            animation: rotate-icon 4s infinite linear;
+        }
+
+        @keyframes rotate-icon {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+
+        .detail-content {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 1.2rem;
+            color: #EC4899;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-size: 2.8rem;
+            color: #fff;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Equalizer visualization */
+        .equalizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 8px;
+            height: 120px;
+            margin: 50px 0;
+        }
+
+        .bar {
+            width: 12px;
+            background: linear-gradient(180deg, #EC4899, #8B5CF6);
+            border-radius: 6px;
+            animation: equalize 1.2s infinite ease-in-out;
+        }
+
+        .bar:nth-child(1) { animation-delay: 0s; }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bar:nth-child(5) { animation-delay: 0.4s; }
+        .bar:nth-child(6) { animation-delay: 0.3s; }
+        .bar:nth-child(7) { animation-delay: 0.2s; }
+        .bar:nth-child(8) { animation-delay: 0.1s; }
+        .bar:nth-child(9) { animation-delay: 0s; }
+
+        @keyframes equalize {
+            0%, 100% { height: 20px; }
+            50% { height: 100px; }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+        }
+
+        .cta {
+            font-size: 2rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            padding: 25px 50px;
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            border-radius: 50px;
+            display: inline-block;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.5);
+            animation: cta-pulse 2s infinite;
+        }
+
+        @keyframes cta-pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(236, 72, 153, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(139, 92, 246, 0.7); }
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .poster {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 210/297;
+            }
+
+            .content {
+                padding: 30px 25px;
+            }
+
+            .event-name {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+
+            .tagline {
+                font-size: 1rem;
+                letter-spacing: 4px;
+            }
+
+            .icon-row {
+                font-size: 2rem;
+                gap: 20px;
+            }
+
+            .detail-icon {
+                font-size: 2rem;
+                width: 60px;
+                height: 60px;
+            }
+
+            .detail-value {
+                font-size: 1.8rem;
+            }
+
+            .detail-label {
+                font-size: 0.9rem;
+            }
+
+            .details {
+                padding: 30px 25px;
+            }
+
+            .cta {
+                font-size: 1.3rem;
+                padding: 20px 40px;
+                letter-spacing: 4px;
+            }
+
+            .equalizer {
+                height: 80px;
+                margin: 30px 0;
+            }
+
+            .bar {
+                width: 8px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .poster {
+                width: 210mm;
+                height: 297mm;
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- Animated background -->
+        <div class="wave-container">
+            <div class="sound-wave">
+                <div class="wave-line"></div>
+                <div class="wave-line"></div>
+                <div class="wave-line"></div>
+                <div class="wave-line"></div>
+            </div>
+        </div>
+
+        <!-- Floating musical notes -->
+        <div class="musical-notes">
+            <div class="note">♪</div>
+            <div class="note">♫</div>
+            <div class="note">♪</div>
+            <div class="note">♫</div>
+            <div class="note">♪</div>
+        </div>
+
+        <!-- Main content -->
+        <div class="content">
+            <!-- Header -->
+            <div class="header">
+                <div class="icon-row">
+                    <span class="icon">🎵</span>
+                    <span class="icon">🎧</span>
+                    <span class="icon">🎤</span>
+                </div>
+                <h1 class="event-name">Winter<br>Music<br>Festival</h1>
+                <p class="tagline">Live • Electric • Unforgettable</p>
+            </div>
+
+            <!-- Details section -->
+            <div class="details">
+                <div class="detail-item">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Date & Time</div>
+                        <div class="detail-value">December 25, 2025<br>7:00 PM</div>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-content">
+                        <div class="detail-label">Location</div>
+                        <div class="detail-value">Central Park<br>Amphitheater</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equalizer visualization -->
+            <div class="equalizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <!-- Footer CTA -->
+            <div class="footer">
+                <div class="cta">Get Your Tickets Now</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add extra interactivity on hover (for digital viewing)
+        document.addEventListener('DOMContentLoaded', function() {
+            const icons = document.querySelectorAll('.icon');
+            const notes = document.querySelectorAll('.note');
+            
+            // Random note sizes for variation
+            notes.forEach(note => {
+                const randomSize = Math.random() * 2 + 2; // 2-4rem
+                note.style.fontSize = randomSize + 'rem';
+            });
+
+            // Add hover effect to icons
+            icons.forEach(icon => {
+                icon.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.5) rotate(15deg)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                
+                icon.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+
+            // Add click effect to CTA button
+            const cta = document.querySelector('.cta');
+            if (cta) {
+                cta.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -9,6 +9,7 @@ Create a goose recipe to generate Posters for events. It should use the followin
 - location
 - event_type
 
-Generate the poster as a single HTML file using JS and CSS as needed.
+Additional notes:
 
-Additionally, the recipe should use conditional logic based on event_type.
+- Generate the poster as a single HTML file using JS and CSS as needed.
+- Additionally, the recipe should use conditional logic based on event_type.

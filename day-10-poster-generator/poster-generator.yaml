@@ -34,28 +34,80 @@ prompt: |
   
   Requirements:
   1. Create a single HTML file with embedded CSS and JavaScript
-  2. Use conditional logic to apply different styling based on the event_type:
-     - music: Use vibrant colors, musical notes, wave patterns
-     - tech: Use modern, sleek design with gradients, tech-themed icons
-     - art: Use creative, artistic design with brush strokes, colorful palette
-     - sports: Use energetic colors, dynamic shapes, athletic imagery
-     - food: Use warm colors, food-themed decorations, appetizing design
-     - conference: Use professional, clean design with corporate colors
-     - Default: Use elegant, versatile design
+  
+  2. Apply conditional styling based on event_type:
+  
+  {% if event_type|lower == "music" %}
+  MUSIC EVENT STYLING:
+  - Primary Colors: Vibrant purple (#8B5CF6), electric blue (#3B82F6), hot pink (#EC4899)
+  - Background: Dark gradient with music wave patterns
+  - Icons: Musical notes (♪ ♫), headphones, microphone
+  - Fonts: Bold, energetic display fonts
+  - Effects: Pulsing animations, sound wave graphics
+  - Theme: High energy, festival vibes
+  {% elif event_type|lower == "tech" %}
+  TECH EVENT STYLING:
+  - Primary Colors: Neon cyan (#06B6D4), matrix green (#10B981), electric purple (#A855F7)
+  - Background: Dark with gradient overlay and grid patterns
+  - Icons: Circuit boards, code brackets (</>), CPU symbols
+  - Fonts: Modern, monospace accents, clean sans-serif
+  - Effects: Glitch effects, terminal-style animations
+  - Theme: Futuristic, innovative, digital
+  {% elif event_type|lower == "art" %}
+  ART EVENT STYLING:
+  - Primary Colors: Rich palette (#FF6B6B, #4ECDC4, #FFE66D, #A8E6CF)
+  - Background: Textured with paint stroke overlays
+  - Icons: Paint brush, palette, easel, frame corners
+  - Fonts: Artistic, handwritten or serif fonts
+  - Effects: Watercolor gradients, brush stroke animations
+  - Theme: Creative, expressive, gallery-worthy
+  {% elif event_type|lower == "sports" %}
+  SPORTS EVENT STYLING:
+  - Primary Colors: Athletic red (#EF4444), championship gold (#F59E0B), victory green (#22C55E)
+  - Background: Dynamic diagonal stripes, energy rays
+  - Icons: Trophy, medal, sports equipment, action stars
+  - Fonts: Bold, impactful, uppercase headers
+  - Effects: Motion blur, speed lines, champion badges
+  - Theme: High energy, competitive, motivational
+  {% elif event_type|lower == "food" %}
+  FOOD EVENT STYLING:
+  - Primary Colors: Warm orange (#F97316), chef's red (#DC2626), cream (#FEF3C7)
+  - Background: Soft gradients with food illustrations
+  - Icons: Fork & knife, chef hat, wine glass, stars
+  - Fonts: Elegant script with modern sans-serif
+  - Effects: Appetizing glow effects, subtle food patterns
+  - Theme: Delicious, inviting, gourmet
+  {% elif event_type|lower == "conference" %}
+  CONFERENCE EVENT STYLING:
+  - Primary Colors: Corporate blue (#2563EB), professional gray (#64748B), accent gold (#D97706)
+  - Background: Clean, minimal with geometric patterns
+  - Icons: Presentation screen, briefcase, network nodes
+  - Fonts: Professional sans-serif, clear hierarchy
+  - Effects: Subtle shadows, clean lines, business cards aesthetic
+  - Theme: Professional, trustworthy, authoritative
+  {% else %}
+  DEFAULT EVENT STYLING:
+  - Primary Colors: Elegant navy (#1E293B), accent teal (#14B8A6), highlight amber (#F59E0B)
+  - Background: Sophisticated gradient with subtle patterns
+  - Icons: Star, calendar, location pin
+  - Fonts: Versatile sans-serif with elegant accents
+  - Effects: Smooth transitions, refined shadows
+  - Theme: Universal, elegant, timeless
+  {% endif %}
   
   3. Include the following elements:
      - Eye-catching header with event name
      - Prominent date and time display
      - Clear location information
-     - Visual elements appropriate to the event type
+     - Visual elements appropriate to the event type (as specified above)
      - Responsive design that looks good on different screen sizes
-     - Optional: Add subtle animations or hover effects
+     - Subtle animations or hover effects matching the theme
   
-  4. Save the file as "{{ event_name | lower | replace(' ', '_') }}_poster.html"
+  4. Save the file as "{{ event_name | lower | replace(' ', '-') }}-poster.html"
   
   5. Make the poster visually appealing, professional, and print-ready (A4 or Letter size)
   
-  Use your creativity to make a stunning poster that captures the essence of a {{ event_type }} event!
+  Use the conditional styling guidelines above to create a stunning poster that perfectly captures the essence of this {{ event_type }} event!
 
 extensions:
   - type: builtin
