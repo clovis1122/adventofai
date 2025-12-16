@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Festival Photo Booth</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 640px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #ffffff, #a5f3fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #e0f2fe;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #videoFeed {
+            width: 100%;
+            height: auto;
+            display: block;
+            transform: scaleX(-1); /* Mirror effect for selfie */
+        }
+
+        #filterCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transform: scaleX(-1); /* Mirror effect for selfie */
+        }
+
+        #captureCanvas {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e0f2fe;
+        }
+
+        #filterSelect {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid #60a5fa;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #filterSelect:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #93c5fd;
+        }
+
+        #filterSelect option {
+            background: #1e3c72;
+            color: #ffffff;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #captureBtn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        #captureBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+        }
+
+        #captureBtn:active {
+            transform: translateY(0);
+        }
+
+        #downloadBtn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        #downloadBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+        }
+
+        #downloadBtn:active {
+            transform: translateY(0);
+        }
+
+        #downloadBtn.hidden {
+            display: none;
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .status.info {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .status.success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #6ee7b7;
+        }
+
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+        .status.hidden {
+            display: none;
+        }
+
+        /* Sparkle effect */
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .sparkle {
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .instructions {
+                font-size: 1rem;
+            }
+
+            button {
+                font-size: 1rem;
+                padding: 12px 16px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .button-group {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="sparkle">❄️ Winter Festival Photo Booth ❄️</h1>
+        <p class="instructions">Select a filter and smile! 📸</p>
+
+        <div class="video-container">
+            <!-- INTEGRATION POINT: Video element for camera feed -->
+            <video id="videoFeed" autoplay playsinline></video>
+            
+            <!-- INTEGRATION POINT: Canvas for drawing filters over video -->
+            <canvas id="filterCanvas"></canvas>
+        </div>
+
+        <!-- INTEGRATION POINT: Hidden canvas for capturing photos -->
+        <canvas id="captureCanvas"></canvas>
+
+        <div class="controls">
+            <div class="filter-group">
+                <label for="filterSelect">Choose Your Filter:</label>
+                <select id="filterSelect">
+                    <option value="none">No Filter</option>
+                    <option value="snowflake">❄️ Snowflake Crown</option>
+                    <option value="reindeer">🦌 Reindeer Antlers</option>
+                    <option value="beard">⛄ Frosty Beard</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button id="captureBtn">📸 Capture Photo</button>
+                <button id="downloadBtn" class="hidden">⬇️ Download</button>
+            </div>
+        </div>
+
+        <div id="statusMessage" class="status hidden"></div>
+    </div>
+
+    <!-- Face Detection Library: face-api.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/dist/face-api.min.js"></script>
+
+    <script>
+        // ========================================
+        // GLOBAL VARIABLES
+        // ========================================
+        let videoElement = document.getElementById('videoFeed');
+        let filterCanvas = document.getElementById('filterCanvas');
+        let filterCtx = filterCanvas.getContext('2d');
+        let captureCanvas = document.getElementById('captureCanvas');
+        let captureCtx = captureCanvas.getContext('2d');
+        let currentFilter = 'none';
+        let capturedImageData = null;
+        let faceDetectionActive = false;
+        let detectedLandmarks = null;
+        let animationFrameId = null;
+
+        // ========================================
+        // CAMERA INITIALIZATION
+        // ========================================
+        async function initCamera() {
+            try {
+                // Check if getUserMedia is supported
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('Camera access not supported in this browser');
+                }
+
+                // Request camera access (front-facing for selfies)
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { 
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                });
+
+                videoElement.srcObject = stream;
+
+                // Wait for video to load metadata
+                videoElement.onloadedmetadata = () => {
+                    // Size canvases to match video dimensions
+                    const width = videoElement.videoWidth;
+                    const height = videoElement.videoHeight;
+                    
+                    filterCanvas.width = width;
+                    filterCanvas.height = height;
+                    captureCanvas.width = width;
+                    captureCanvas.height = height;
+
+                    showStatus('Camera ready! Loading face detection...', 'info');
+                    
+                    // Start face detection
+                    startFaceDetection();
+                };
+
+            } catch (error) {
+                console.error('Camera initialization error:', error);
+                let errorMsg = 'Camera access denied. Please allow camera permissions.';
+                
+                if (error.name === 'NotAllowedError') {
+                    errorMsg = 'Camera access denied. Please allow camera permissions and reload.';
+                } else if (error.name === 'NotFoundError') {
+                    errorMsg = 'No camera found on this device.';
+                } else if (error.name === 'NotReadableError') {
+                    errorMsg = 'Camera is already in use by another application.';
+                }
+                
+                showStatus(errorMsg, 'error');
+            }
+        }
+
+        // ========================================
+        // FACE DETECTION
+        // ========================================
+        async function startFaceDetection() {
+            try {
+                // Load face-api.js models from CDN
+                const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.12/model/';
+                
+                showStatus('Loading face detection models...', 'info');
+                
+                // Load only the necessary models for face landmarks
+                await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+                await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+
+                showStatus('Face detection ready! Select a filter and smile!', 'success');
+                faceDetectionActive = true;
+                
+                // Start the detection loop
+                detectFaces();
+                
+            } catch (error) {
+                console.error('Face detection initialization error:', error);
+                showStatus('Face detection failed to load. Filters may not work properly.', 'error');
+            }
+        }
+
+        // ========================================
+        // FACE DETECTION LOOP
+        // ========================================
+        async function detectFaces() {
+            if (!faceDetectionActive) return;
+
+            try {
+                // Detect faces with landmarks
+                const detections = await faceapi
+                    .detectSingleFace(videoElement, new faceapi.TinyFaceDetectorOptions())
+                    .withFaceLandmarks();
+
+                if (detections) {
+                    detectedLandmarks = detections.landmarks;
+                } else {
+                    detectedLandmarks = null;
+                }
+
+                // Render the current filter
+                renderFilter();
+                
+            } catch (error) {
+                console.error('Face detection error:', error);
+            }
+
+            // Continue the loop
+            animationFrameId = requestAnimationFrame(detectFaces);
+        }
+
+        // ========================================
+        // FILTER RENDERING
+        // ========================================
+        function renderFilter() {
+            // Clear the filter canvas
+            filterCtx.clearRect(0, 0, filterCanvas.width, filterCanvas.height);
+
+            // Only render if we have detected landmarks and a filter is selected
+            if (!detectedLandmarks || currentFilter === 'none') {
+                return;
+            }
+
+            // Get key facial landmarks
+            const positions = detectedLandmarks.positions;
+            
+            // Key landmark indices (based on face-api.js 68-point model)
+            const foreheadCenter = positions[27]; // Bridge of nose (approximation)
+            const leftEar = positions[0]; // Left jaw start
+            const rightEar = positions[16]; // Right jaw end
+            const noseTip = positions[30]; // Nose tip
+            const chinCenter = positions[8]; // Chin center
+            const leftEye = positions[36]; // Left eye left corner
+            const rightEye = positions[45]; // Right eye right corner
+
+            // Calculate face width for scaling
+            const faceWidth = Math.abs(rightEar.x - leftEar.x);
+            
+            // Apply the selected filter
+            switch (currentFilter) {
+                case 'snowflake':
+                    drawSnowflakeCrown(foreheadCenter, faceWidth);
+                    break;
+                case 'reindeer':
+                    drawReindeerAntlers(leftEar, rightEar, noseTip, faceWidth);
+                    break;
+                case 'beard':
+                    drawFrostyBeard(noseTip, chinCenter, faceWidth);
+                    break;
+            }
+        }
+
+        // ========================================
+        // FILTER: SNOWFLAKE CROWN
+        // ========================================
+        function drawSnowflakeCrown(forehead, faceWidth) {
+            const snowflakeSize = faceWidth * 0.15;
+            const yOffset = faceWidth * 0.35; // Position above head
+            const numFlakes = 7;
+            const arcWidth = faceWidth * 1.2;
+
+            filterCtx.font = `${snowflakeSize}px Arial`;
+            filterCtx.textAlign = 'center';
+            filterCtx.textBaseline = 'middle';
+
+            for (let i = 0; i < numFlakes; i++) {
+                const angle = Math.PI * (0.2 + (i / (numFlakes - 1)) * 0.6); // Arc from left to right
+                const x = forehead.x + Math.cos(angle - Math.PI / 2) * arcWidth / 2;
+                const y = forehead.y - yOffset + Math.sin(angle - Math.PI / 2) * arcWidth / 4;
+                
+                // Add slight animation
+                const time = Date.now() / 1000;
+                const sparkle = 0.8 + Math.sin(time * 2 + i) * 0.2;
+                filterCtx.globalAlpha = sparkle;
+                
+                filterCtx.fillText('❄️', x, y);
+            }
+            
+            filterCtx.globalAlpha = 1.0;
+        }
+
+        // ========================================
+        // FILTER: REINDEER ANTLERS
+        // ========================================
+        function drawReindeerAntlers(leftEar, rightEar, nose, faceWidth) {
+            const antlerSize = faceWidth * 0.4;
+            
+            // Draw antlers
+            filterCtx.save();
+            
+            // Left antler
+            drawAntler(leftEar.x - faceWidth * 0.15, leftEar.y - faceWidth * 0.25, antlerSize, false);
+            
+            // Right antler
+            drawAntler(rightEar.x + faceWidth * 0.15, rightEar.y - faceWidth * 0.25, antlerSize, true);
+            
+            filterCtx.restore();
+            
+            // Draw red nose
+            const noseSize = faceWidth * 0.08;
+            filterCtx.fillStyle = '#ff0000';
+            filterCtx.beginPath();
+            filterCtx.arc(nose.x, nose.y, noseSize, 0, Math.PI * 2);
+            filterCtx.fill();
+            
+            // Add shine to nose
+            filterCtx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+            filterCtx.beginPath();
+            filterCtx.arc(nose.x - noseSize * 0.3, nose.y - noseSize * 0.3, noseSize * 0.4, 0, Math.PI * 2);
+            filterCtx.fill();
+        }
+
+        function drawAntler(x, y, size, flipped) {
+            filterCtx.strokeStyle = '#8B4513';
+            filterCtx.lineWidth = size * 0.1;
+            filterCtx.lineCap = 'round';
+            
+            const direction = flipped ? 1 : -1;
+            
+            // Main branch
+            filterCtx.beginPath();
+            filterCtx.moveTo(x, y);
+            filterCtx.lineTo(x + direction * size * 0.3, y - size * 0.8);
+            filterCtx.stroke();
+            
+            // Branch 1
+            filterCtx.beginPath();
+            filterCtx.moveTo(x + direction * size * 0.15, y - size * 0.4);
+            filterCtx.lineTo(x + direction * size * 0.4, y - size * 0.5);
+            filterCtx.stroke();
+            
+            // Branch 2
+            filterCtx.beginPath();
+            filterCtx.moveTo(x + direction * size * 0.25, y - size * 0.6);
+            filterCtx.lineTo(x + direction * size * 0.5, y - size * 0.75);
+            filterCtx.stroke();
+            
+            // Branch 3
+            filterCtx.beginPath();
+            filterCtx.moveTo(x + direction * size * 0.3, y - size * 0.75);
+            filterCtx.lineTo(x + direction * size * 0.15, y - size);
+            filterCtx.stroke();
+        }
+
+        // ========================================
+        // FILTER: FROSTY BEARD
+        // ========================================
+        function drawFrostyBeard(nose, chin, faceWidth) {
+            const beardWidth = faceWidth * 0.8;
+            const beardHeight = Math.abs(chin.y - nose.y) * 1.3;
+            const centerX = (nose.x + chin.x) / 2;
+            const startY = nose.y + faceWidth * 0.15;
+
+            // Draw multiple layers for fluffy effect
+            for (let layer = 0; layer < 5; layer++) {
+                filterCtx.fillStyle = `rgba(255, 255, 255, ${0.3 - layer * 0.05})`;
+                
+                filterCtx.beginPath();
+                
+                // Create a fluffy beard shape
+                const layerOffset = layer * 5;
+                const currentWidth = beardWidth - layerOffset;
+                const currentHeight = beardHeight - layerOffset;
+                
+                // Top of beard (below nose/mouth)
+                filterCtx.moveTo(centerX - currentWidth / 2, startY);
+                
+                // Create fluffy bumps using quadratic curves
+                const numBumps = 8;
+                for (let i = 0; i <= numBumps; i++) {
+                    const angle = (i / numBumps) * Math.PI;
+                    const x = centerX + Math.cos(angle - Math.PI) * currentWidth / 2;
+                    const y = startY + Math.sin(angle) * currentHeight;
+                    
+                    // Add randomness for fluffy effect
+                    const bumpSize = Math.random() * 10 + 5;
+                    const bumpX = x + (Math.random() - 0.5) * bumpSize;
+                    const bumpY = y + (Math.random() - 0.5) * bumpSize;
+                    
+                    if (i === 0) {
+                        filterCtx.lineTo(bumpX, bumpY);
+                    } else {
+                        filterCtx.quadraticCurveTo(bumpX, bumpY, x, y);
+                    }
+                }
+                
+                filterCtx.closePath();
+                filterCtx.fill();
+            }
+            
+            // Add some cotton ball details
+            filterCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            for (let i = 0; i < 10; i++) {
+                const x = centerX + (Math.random() - 0.5) * beardWidth * 0.6;
+                const y = startY + Math.random() * beardHeight * 0.8;
+                const radius = Math.random() * 8 + 4;
+                
+                filterCtx.beginPath();
+                filterCtx.arc(x, y, radius, 0, Math.PI * 2);
+                filterCtx.fill();
+            }
+        }
+
+        // ========================================
+        // FILTER APPLICATION
+        // ========================================
+        function applyFilter(filterName) {
+            currentFilter = filterName;
+            showStatus(`Filter: ${filterName}`, 'info');
+        }
+
+        // ========================================
+        // PHOTO CAPTURE
+        // ========================================
+        function capturePhoto() {
+            if (!videoElement.srcObject) {
+                showStatus('Camera not ready!', 'error');
+                return;
+            }
+
+            // Draw the current video frame to capture canvas (flip it back to normal)
+            captureCtx.save();
+            captureCtx.scale(-1, 1);
+            captureCtx.drawImage(videoElement, -captureCanvas.width, 0, captureCanvas.width, captureCanvas.height);
+            captureCtx.restore();
+
+            // Draw the current filter on top (also flipped back)
+            if (detectedLandmarks && currentFilter !== 'none') {
+                captureCtx.save();
+                captureCtx.scale(-1, 1);
+                captureCtx.drawImage(filterCanvas, -captureCanvas.width, 0, captureCanvas.width, captureCanvas.height);
+                captureCtx.restore();
+            }
+
+            // Convert to data URL
+            capturedImageData = captureCanvas.toDataURL('image/png');
+            
+            showStatus('Photo captured! Click download to save.', 'success');
+            document.getElementById('downloadBtn').classList.remove('hidden');
+        }
+
+        // ========================================
+        // PHOTO DOWNLOAD
+        // ========================================
+        function downloadPhoto() {
+            if (!capturedImageData) {
+                showStatus('No photo to download!', 'error');
+                return;
+            }
+
+            // Create a temporary download link
+            const downloadLink = document.createElement('a');
+            downloadLink.href = capturedImageData;
+            downloadLink.download = `winter-festival-${Date.now()}.png`;
+            
+            // Trigger download
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+            
+            showStatus('Photo downloaded!', 'success');
+        }
+
+        // ========================================
+        // UTILITY FUNCTIONS
+        // ========================================
+        function showStatus(message, type = 'info') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                statusEl.classList.add('hidden');
+            }, 3000);
+        }
+
+        // ========================================
+        // EVENT LISTENERS
+        // ========================================
+        document.getElementById('filterSelect').addEventListener('change', (e) => {
+            applyFilter(e.target.value);
+        });
+
+        document.getElementById('captureBtn').addEventListener('click', () => {
+            capturePhoto();
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            downloadPhoto();
+        });
+
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            showStatus('Initializing camera...', 'info');
+            await initCamera();
+        });
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+            if (videoElement.srcObject) {
+                videoElement.srcObject.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>

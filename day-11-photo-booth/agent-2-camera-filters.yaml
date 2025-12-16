@@ -1,0 +1,170 @@
+title: Photo Booth Camera and Filters
+name: photo-booth-camera-filters
+description: Implement camera access, face detection, and festive filters
+
+prompt: |
+  You are implementing the core functionality for a Winter Festival Photo Booth web app.
+  
+  ## Context
+  
+  Agent 1 has created the UI foundation with:
+  - index.html with video element (id="videoFeed")
+  - Canvas for filters (id="filterCanvas")
+  - Canvas for capture (id="captureCanvas")
+  - Filter dropdown with options: No Filter, Snowflake Crown, Reindeer Antlers, Frosty Beard
+  - Placeholder functions ready for implementation
+  
+  ## Your Responsibilities
+  
+  ### 1. Camera Access Implementation
+  
+  Implement the `initCamera()` function:
+  - Use `navigator.mediaDevices.getUserMedia({video: {facingMode: 'user'}})`
+  - Handle permissions and errors gracefully
+  - Set video element srcObject to stream
+  - Size canvas elements to match video dimensions
+  - Start face detection once video is ready (onloadedmetadata)
+  
+  Error handling:
+  - Show user-friendly message if camera denied
+  - Detect if getUserMedia not supported
+  - Handle camera already in use
+  
+  ### 2. Face Detection
+  
+  Choose and implement ONE of these libraries:
+  - **Recommended:** face-api.js (easier, good docs)
+  - Alternative: MediaPipe Face Mesh (lighter, faster)
+  
+  Implement `startFaceDetection()`:
+  - Load face detection models
+  - Run detection on video frames in loop (requestAnimationFrame)
+  - Extract key landmarks:
+    * Forehead center position
+    * Left and right ear positions (for antlers)
+    * Nose tip position
+    * Chin center position
+  - Store landmarks in global variable for filter functions
+  - Run at ~30fps, optimize for mobile performance
+  
+  ### 3. Filter Implementation
+  
+  Implement `applyFilter(filterName)` and individual filter functions:
+  
+  **Filter 1: Snowflake Crown**
+  - Draw 5-7 snowflake emojis (❄️) or SVG snowflakes
+  - Position in arc above forehead
+  - Scale based on face size
+  - Add slight animation (optional: gentle rotation/sparkle)
+  
+  **Filter 2: Reindeer Antlers**
+  - Draw brown antlers above left and right ears
+  - Use Canvas drawing or emoji (🦌 decomposed)
+  - Add red nose on nose tip (🔴)
+  - Size proportional to face
+  
+  **Filter 3: Frosty Beard**
+  - Draw white fluffy beard shape on chin area
+  - Use semi-transparent white fills with multiple layers
+  - Cotton-like texture (randomize opacity/size)
+  - Extend from mouth to below chin
+  
+  **No Filter:**
+  - Clear filter canvas but keep face detection running
+  
+  Each filter should:
+  - Clear previous frame
+  - Check if face detected
+  - Use detected landmarks for positioning
+  - Scale graphics based on face size
+  - Render smoothly at 30fps
+  
+  ### 4. Photo Capture
+  
+  Implement `capturePhoto()`:
+  - Draw video frame to captureCanvas
+  - Draw current filter on top
+  - Convert to data URL (PNG format)
+  - Show preview or success message
+  - Enable download button
+  - Store data URL for download function
+  
+  Implement `downloadPhoto()`:
+  - Create temporary <a> element
+  - Set href to captured data URL
+  - Set download attribute to "winter-festival-photo.png"
+  - Trigger click programmatically
+  - Clean up
+  
+  ### 5. Animation Loop
+  
+  Create main render loop:
+  ```javascript
+  function render() {
+    if (face detected) {
+      clear filter canvas
+      draw current filter using landmarks
+    }
+    requestAnimationFrame(render)
+  }
+  ```
+  
+  ## Technical Requirements
+  
+  - Use vanilla JavaScript (no frameworks)
+  - Include face detection library via CDN (face-api.js or MediaPipe)
+  - Optimize for mobile performance (throttle if needed)
+  - Handle window resize gracefully
+  - Clean, commented code
+  
+  ## Integration with Agent 1's Code
+  
+  1. Open the index.html created by Agent 1
+  2. Find the placeholder functions
+  3. Replace placeholders with your implementations
+  4. Add face detection library script tag in <head>
+  5. Add any helper functions you need
+  6. Test thoroughly
+  
+  ## Deliverables
+  
+  1. Complete working index.html with all functions implemented
+  2. Face detection working in real-time
+  3. All 3 filters rendering correctly
+  4. Photo capture and download functional
+  5. Code comments explaining key algorithms
+  6. Brief testing notes (what you tested, any issues)
+  
+  ## Success Criteria
+  
+  - Camera activates automatically on page load
+  - Face detection runs smoothly at 30fps
+  - Filters track face in real-time
+  - All 3 filters look festive and fun
+  - Filter switching is instant
+  - Photos capture with filters applied
+  - Download works on mobile and desktop
+  - No console errors
+  - App works on mobile browsers (test on iOS/Android if possible)
+  
+  ## Performance Targets
+  
+  - Face detection: 30fps minimum
+  - Filter rendering: 60fps (should be lightweight)
+  - Total file size: < 50KB (excluding libraries)
+  - Time to first frame: < 2 seconds
+  
+  ## Tips
+  
+  - face-api.js: Use TinyFaceDetector for speed
+  - Cache face detection models after first load
+  - Use requestAnimationFrame for smooth rendering
+  - Test with and without good lighting
+  - Consider adding loading indicator while models load
+  - Mobile browsers may need user gesture to start camera
+  
+  Start by getting camera working, then face detection, then filters one by one.
+
+extensions:
+  - type: builtin
+    name: developer

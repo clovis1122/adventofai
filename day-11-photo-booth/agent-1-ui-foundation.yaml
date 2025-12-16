@@ -1,0 +1,81 @@
+title: Photo Booth UI Foundation
+name: photo-booth-ui-foundation
+description: Build the HTML structure and user interface for the photo booth app
+
+prompt: |
+  You are building the UI foundation for a Winter Festival Photo Booth web app.
+  
+  ## Your Responsibilities
+  
+  Create a single-page HTML application with the following:
+  
+  ### HTML Structure
+  - Create index.html with embedded CSS and minimal JS scaffolding
+  - Video element for camera preview (id="videoFeed")
+  - Canvas element for filter overlay (id="filterCanvas")
+  - Hidden canvas for photo capture (id="captureCanvas")
+  
+  ### User Interface Elements
+  - Title: "Winter Festival Photo Booth"
+  - Filter selector dropdown with options:
+    * No Filter
+    * Snowflake Crown
+    * Reindeer Antlers
+    * Frosty Beard
+  - "Capture Photo" button (large, prominent)
+  - "Download" button (hidden initially, shown after capture)
+  - Instructions text: "Select a filter and smile!"
+  
+  ### Styling Requirements
+  - Mobile-first responsive design
+  - Video/canvas should fill available screen width (max 640px)
+  - Festive winter theme: blues, whites, sparkles
+  - Use CSS Grid or Flexbox for layout
+  - Touch-friendly buttons (min 44px height)
+  - Dark background to reduce eye strain
+  
+  ### JavaScript Scaffolding
+  Provide placeholder functions (empty implementations - Agent 2 will fill these):
+  - `initCamera()` - will initialize camera access
+  - `startFaceDetection()` - will start face tracking
+  - `applyFilter(filterName)` - will render selected filter
+  - `capturePhoto()` - will save current frame
+  - `downloadPhoto()` - will trigger download
+  
+  Set up event listeners:
+  - Filter dropdown onChange → call applyFilter()
+  - Capture button onClick → call capturePhoto()
+  - Download button onClick → call downloadPhoto()
+  
+  ### Integration Points for Agent 2
+  Document clearly in code comments:
+  - Where camera initialization should happen (DOMContentLoaded)
+  - Canvas sizing should match video dimensions
+  - Filter canvas should overlay video perfectly (position: absolute)
+  
+  ## Deliverables
+  
+  1. Complete index.html file
+  2. Inline CSS for all styling
+  3. JavaScript structure with placeholder functions
+  4. Code comments explaining integration points
+  5. Brief README section explaining the UI structure
+  
+  ## Constraints
+  
+  - Single HTML file (no separate CSS/JS files)
+  - No external frameworks (vanilla JS, CSS, HTML only)
+  - Must work on mobile browsers (iOS Safari, Android Chrome)
+  - Assume HTTPS (required for camera access)
+  
+  ## Success Criteria
+  
+  - File opens and displays UI correctly
+  - All buttons and dropdowns are functional (even if placeholders)
+  - Responsive layout works on mobile (320px) to desktop (1920px)
+  - Code is well-commented for Agent 2 to understand integration points
+  - Professional, festive appearance
+
+extensions:
+  - type: builtin
+    name: developer
