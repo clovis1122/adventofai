@@ -1,2 +1,1 @@
 This repository contains code for the advert of AI challenge. Each challenge demostrate an use case of Goose.
-

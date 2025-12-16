@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Winter Festival 2025 - Advent of AI Projects</title>
+    <meta name="description" content="Advent of AI 2024 - Winter Festival AI Challenges">
+    <title>Advent of AI 2024 - Winter Festival</title>
+    
     <style>
+        /* === RESET & BASE STYLES === */
         * {
             margin: 0;
             padding: 0;
@@ -12,152 +15,356 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-            color: white;
+            padding: 2rem 1rem;
+            color: #fff;
         }
 
-        .container {
-            max-width: 800px;
-            width: 100%;
+        /* === HEADER === */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: sparkle 2s infinite;
         }
 
         h1 {
-            text-align: center;
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                         0 0 40px rgba(147, 197, 253, 0.3);
+            background: linear-gradient(to right, #fff, #93c5fd, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
         }
 
         .subtitle {
-            text-align: center;
-            font-size: 1.3em;
-            margin-bottom: 50px;
-            opacity: 0.9;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: #ddd;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
 
-        .projects {
+        /* === MAIN CONTAINER === */
+        main {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        /* === CHALLENGE GRID === */
+        .challenges-grid {
             display: grid;
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
         }
 
-        .project-card {
+        /* === CHALLENGE CARD === */
+        .challenge-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            color: white;
-            display: block;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
-        .project-card:hover {
+        .challenge-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(147, 197, 253, 0.5);
         }
 
-        .project-card h2 {
-            font-size: 2em;
-            margin-bottom: 15px;
+        .challenge-header {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 0.75rem;
         }
 
-        .project-card p {
-            font-size: 1.1em;
-            line-height: 1.6;
-            opacity: 0.9;
-            margin-bottom: 15px;
+        .challenge-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #93c5fd;
+            min-width: 3rem;
         }
 
-        .project-tags {
+        .challenge-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .challenge-description {
+            color: #ddd;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .challenge-links {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .tag {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-
-        .emoji {
-            font-size: 1.5em;
-        }
-
-        footer {
+        .challenge-link {
+            display: inline-block;
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, #ec4899 0%, #ef4444 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
             text-align: center;
-            margin-top: 50px;
-            opacity: 0.8;
-            font-size: 0.9em;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .challenge-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.5);
+        }
+
+        .challenge-link.secondary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .challenge-link.secondary:hover {
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .no-demo {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            font-style: italic;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        /* === ANIMATIONS === */
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* === FOOTER === */
+        footer {
+            margin-top: auto;
+            padding: 2rem 1rem 1rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
         }
 
         footer a {
-            color: white;
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        footer a:hover {
             text-decoration: underline;
+        }
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* === ACCESSIBILITY === */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎄 Winter Festival 2025</h1>
-        <p class="subtitle">Advent of AI - Interactive Projects</p>
+    <!-- HEADER -->
+    <header>
+        <h1>🎄 Advent of AI 2024 ✨</h1>
+        <p class="subtitle">Winter Festival AI Challenges with Goose</p>
+    </header>
 
-        <div class="projects">
-            <a href="/day-4-festival-website" class="project-card">
-                <h2>
-                    <span class="emoji">🎪</span>
-                    Day 4: Festival Website
-                </h2>
-                <p>
-                    An interactive winter festival website featuring multiple themed booths, 
-                    dynamic countdown timer, and beautiful animations. Experience fortune telling, 
-                    storytelling, hot cocoa, and more!
-                </p>
-                <div class="project-tags">
-                    <span class="tag">HTML/CSS/JS</span>
-                    <span class="tag">Animations</span>
-                    <span class="tag">Interactive</span>
-                    <span class="tag">Multi-page</span>
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="challenges-grid">
+            <!-- Day 1 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">01</div>
+                    <h2 class="challenge-title">Fortune Teller</h2>
                 </div>
-            </a>
+                <p class="challenge-description">
+                    Mystical fortunes and predictions powered by AI. Get your winter festival fortune told!
+                </p>
+                <div class="challenge-links">
+                    <p class="no-demo">📝 Command-line based challenge</p>
+                </div>
+            </div>
 
-            <a href="/day-5-gesture-tracker" class="project-card">
-                <h2>
-                    <span class="emoji">✈️</span>
-                    Day 5: Gesture-Controlled Flight Tracker
-                </h2>
-                <p>
-                    Control real-time flight tracking with hand gestures! Uses MediaPipe for 
-                    gesture recognition and OpenSky API for live flight data. Open your hand 
-                    for previous flight, close your fist for next flight.
-                </p>
-                <div class="project-tags">
-                    <span class="tag">MediaPipe</span>
-                    <span class="tag">Hand Tracking</span>
-                    <span class="tag">Real-time API</span>
-                    <span class="tag">WebCam</span>
+            <!-- Day 2 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">02</div>
+                    <h2 class="challenge-title">Storyteller Booth</h2>
                 </div>
-            </a>
+                <p class="challenge-description">
+                    Interactive storytelling experience with AI-generated winter tales and adventures.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-02-storyteller-booth/index.html" class="challenge-link">🎭 Open Storyteller</a>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">03</div>
+                    <h2 class="challenge-title">Cocoa Crisis</h2>
+                </div>
+                <p class="challenge-description">
+                    Hot chocolate competition with tournament brackets, judge scores, and voting analytics visualizations.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-03-cocoa-crisis/index.html" class="challenge-link">🏆 View Dashboard</a>
+                    <a href="day-03-cocoa-crisis/01-tournament-bracket.html" class="challenge-link secondary">📊 Tournament Bracket</a>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">04</div>
+                    <h2 class="challenge-title">Festival Website</h2>
+                </div>
+                <p class="challenge-description">
+                    Complete winter festival website with schedules, events, and interactive features.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-04-festival-website/index.html" class="challenge-link">🎪 Visit Festival</a>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">05</div>
+                    <h2 class="challenge-title">Gesture Tracker</h2>
+                </div>
+                <p class="challenge-description">
+                    Hand gesture recognition and tracking for interactive winter festival experiences.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-05-gesture-tracker/index.html" class="challenge-link">👋 Try Gestures</a>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">06</div>
+                    <h2 class="challenge-title">Feedback Triangle</h2>
+                </div>
+                <p class="challenge-description">
+                    Collect and analyze festival feedback using innovative visualization techniques.
+                </p>
+                <div class="challenge-links">
+                    <p class="no-demo">📝 Data analysis challenge</p>
+                </div>
+            </div>
+
+            <!-- Day 7 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">07</div>
+                    <h2 class="challenge-title">Lost & Found</h2>
+                </div>
+                <p class="challenge-description">
+                    AI-powered lost and found system to help festival-goers reunite with their belongings.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-07-lost-found/index.html" class="challenge-link">🔍 Search Items</a>
+                </div>
+            </div>
+
+            <!-- Day 8 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">08</div>
+                    <h2 class="challenge-title">Data Dilemma</h2>
+                </div>
+                <p class="challenge-description">
+                    Solve data puzzles and challenges related to festival analytics and insights.
+                </p>
+                <div class="challenge-links">
+                    <p class="no-demo">📊 Data processing challenge</p>
+                </div>
+            </div>
+
+            <!-- Day 9 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">09</div>
+                    <h2 class="challenge-title">Gift Tag</h2>
+                </div>
+                <p class="challenge-description">
+                    Create personalized gift tags with AI-generated designs and messages.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-09-gift-tag/gift-tag-marcus.html" class="challenge-link">🎁 View Gift Tag</a>
+                </div>
+            </div>
+
+            <!-- Day 10 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">10</div>
+                    <h2 class="challenge-title">Poster Generator</h2>
+                </div>
+                <p class="challenge-description">
+                    Generate beautiful winter music festival posters with AI-powered design tools.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-10-poster-generator/winter-music-festival-poster.html" class="challenge-link">🎨 View Poster</a>
+                </div>
+            </div>
+
+            <!-- Day 11 -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="challenge-number">11</div>
+                    <h2 class="challenge-title">Photo Booth</h2>
+                </div>
+                <p class="challenge-description">
+                    Interactive photo booth with festive filters, face detection, and instant downloads.
+                </p>
+                <div class="challenge-links">
+                    <a href="day-11-photo-booth/index.html" class="challenge-link">📸 Open Photo Booth</a>
+                </div>
+            </div>
         </div>
+    </main>
 
-        <footer>
-            <p>Built with ❤️ for Advent of AI 2025</p>
-            <p><a href="https://github.com/yourusername/advertofai" target="_blank">View on GitHub</a></p>
-        </footer>
-    </div>
+    <!-- FOOTER -->
+    <footer>
+        <p>Built for Advent of AI 2024 | Powered by Goose AI Agent</p>
+        <p><a href="https://github.com/yourusername/adventofai" target="_blank">View on GitHub</a></p>
+    </footer>
 </body>
 </html>
