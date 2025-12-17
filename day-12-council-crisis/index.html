@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 12: Council Crisis - Debate Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+        
+        .debate-info {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .debate-info h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .mascot-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .mascot-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .mascot-item strong {
+            font-size: 1.5em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-container {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .winners {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .winners h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .winner-list {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .winner-item {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .synthesis {
+            background: #fff9e6;
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffd700;
+            margin-bottom: 30px;
+        }
+        
+        .synthesis h2 {
+            color: #d4a017;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .synthesis-content {
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+        
+        .opinions-section {
+            margin-top: 40px;
+        }
+        
+        .opinion-card {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .opinion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .opinion-header h3 {
+            color: #667eea;
+            font-size: 1.5em;
+        }
+        
+        .vote-badge {
+            background: #667eea;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .opinion-text {
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .voting-section {
+            background: #f0f7ff;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .voting-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .vote-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .vote-arrow {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .vote-reasoning {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9ff;
+            border-radius: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ Day 12: Council Crisis</h1>
+        <p class="subtitle">Winter Festival Mascot Debate Results</p>
+        
+        <div class="debate-info">
+            <h2>📋 Debate Topic</h2>
+            <p>As the festival director, we need to decide on the mascot for the winter festival. Here are the five options being proposed:</p>
+            
+            <div class="mascot-list">
+                <div class="mascot-item">
+                    <strong>⛄ Snowman</strong>
+                    <p>Marketing Director's choice: Classic, recognizable, easy to make costumes</p>
+                </div>
+                <div class="mascot-item">
+                    <strong>🐧 Penguin</strong>
+                    <p>Entertainment Coordinator's choice: Cute, marketable, kids love penguins</p>
+                </div>
+                <div class="mascot-item">
+                    <strong>🐻‍❄️ Polar Bear</strong>
+                    <p>Volunteer Manager's choice: Majestic, powerful, represents strength</p>
+                </div>
+                <div class="mascot-item">
+                    <strong>🧚 Magical Ice Fairy</strong>
+                    <p>Artistic Director's choice: Whimsical, unique, Instagram-worthy</p>
+                </div>
+                <div class="mascot-item">
+                    <strong>🦣 Friendly Yeti</strong>
+                    <p>Local Historian's choice: Mysterious, fun, tells a story</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="winners">
+            <h2>🏆 Three-Way Tie Winners</h2>
+            <div class="winner-list">
+                <div class="winner-item">
+                    <h3>🔗 The Systems Thinker</h3>
+                    <p>2 Votes - Advocated for Penguin 🐧</p>
+                </div>
+                <div class="winner-item">
+                    <h3>🌟 The Visionary</h3>
+                    <p>2 Votes - Advocated for Ice Fairy/Yeti</p>
+                </div>
+                <div class="winner-item">
+                    <h3>😈 The Devil's Advocate</h3>
+                    <p>2 Votes - Challenged single-mascot approach</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="synthesis">
+            <h2>🎯 Council's Recommended Solution</h2>
+            <div class="synthesis-content">
+                <p><strong>Hybrid "Winter Festival Family" Approach:</strong></p>
+                <ul style="margin-top: 15px; margin-left: 20px; line-height: 2;">
+                    <li><strong>Primary Mascot: Snowman ⛄</strong> - For its universal accessibility, cost-effectiveness, and instant recognition</li>
+                    <li><strong>Supporting Characters: Penguin 🐧, Yeti 🦣, and Ice Fairy 🧚</strong> - Featured in specific festival zones for storytelling, engagement, and creative flair</li>
+                </ul>
+                <p style="margin-top: 20px;">The debate revealed a three-way tie between The Systems Thinker (Penguin), The Visionary (Ice Fairy/Yeti), and The Devil's Advocate (challenging the single-mascot premise), suggesting the council values both strategic cohesion and creative disruption. The Mediator's "Winter Festival Family" concept elegantly bridges the divide by honoring each stakeholder's expertise while avoiding the internal division The Devil's Advocate warned against.</p>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">📊 Voting Visualizations</h2>
+        
+        <div class="chart-grid">
+            <div class="chart-container">
+                <h3>Votes Received by Council Members</h3>
+                <div class="chart-wrapper">
+                    <canvas id="votesChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <h3>Mascot Preferences</h3>
+                <div class="chart-wrapper">
+                    <canvas id="mascotsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="chart-container full-width">
+                <h3>Vote Distribution Bar Chart</h3>
+                <div class="chart-wrapper">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="voting-section">
+            <h2>🗳️ Individual Votes & Reasoning</h2>
+            
+            <div class="vote-item">
+                <strong>🔧 The Pragmatist</strong> <span class="vote-arrow">→</span> <strong>🔗 The Systems Thinker</strong>
+                <div class="vote-reasoning">
+                    "The Systems Thinker's recommendation of the Penguin is grounded in practical considerations that actually matter for execution—costume feasibility, proven merchandising models, broad demographic appeal, and reduced operational friction."
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>🌟 The Visionary</strong> <span class="vote-arrow">→</span> <strong>😊 The Optimist</strong>
+                <div class="vote-reasoning">
+                    "The Optimist's championing of the Friendly Yeti aligns perfectly with visionary thinking—it's not about playing it safe with what's proven, but about creating something transformative and memorable."
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>🔗 The Systems Thinker</strong> <span class="vote-arrow">→</span> <strong>🤝 The Mediator</strong>
+                <div class="vote-reasoning">
+                    "The Mediator's 'Winter Festival Family' approach recognizes the interconnected stakeholder ecosystem and creates a solution where multiple elements reinforce each other rather than compete."
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>😊 The Optimist</strong> <span class="vote-arrow">→</span> <strong>🌟 The Visionary</strong>
+                <div class="vote-reasoning">
+                    "The Visionary's perspective on the Ice Fairy or Yeti excites me because it sees the tremendous upside potential - not just a mascot, but a catalyst for transformation!"
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>😈 The Devil's Advocate</strong> <span class="vote-arrow">→</span> <strong>🌟 The Visionary</strong>
+                <div class="vote-reasoning">
+                    "The Visionary's push for the Ice Fairy or Yeti directly challenges the safe consensus forming around the Snowman, forcing us to confront whether we're defaulting to 'proven and boring'."
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>🤝 The Mediator</strong> <span class="vote-arrow">→</span> <strong>😈 The Devil's Advocate</strong>
+                <div class="vote-reasoning">
+                    "The Devil's Advocate raises the most integrative question that aligns with my mediation values - challenging the binary choice framework itself."
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>👥 The User Advocate</strong> <span class="vote-arrow">→</span> <strong>😈 The Devil's Advocate</strong>
+                <div class="vote-reasoning">
+                    "The Devil's Advocate raises the critical accessibility question I should have asked first: who are we excluding with each choice?"
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>📜 The Traditionalist</strong> <span class="vote-arrow">→</span> <strong>🔧 The Pragmatist</strong>
+                <div class="vote-reasoning">
+                    "The Pragmatist's support for the Snowman aligns perfectly with traditionalist values - it's a time-tested, universally recognized symbol that has represented winter celebrations for generations."
+                </div>
+            </div>
+            
+            <div class="vote-item">
+                <strong>📊 The Analyst</strong> <span class="vote-arrow">→</span> <strong>🔗 The Systems Thinker</strong>
+                <div class="vote-reasoning">
+                    "The Systems Thinker's analysis provides concrete, measurable criteria for decision-making by examining stakeholder alignment, cost-benefit analysis, market segmentation risks, and revenue potential."
+                </div>
+            </div>
+        </div>
+        
+        <div class="opinions-section">
+            <h2 style="text-align: center; color: #667eea; margin-bottom: 30px;">💭 All Council Member Opinions</h2>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>🔧 The Pragmatist</h3>
+                    <span class="vote-badge">1 Vote</span>
+                </div>
+                <div class="opinion-text">
+                    I'm going with the <strong>Snowman ⛄</strong> - here's why from a practical standpoint: Cost and logistics matter. Snowman costumes are cheap and readily available off-the-shelf, volunteers can literally build real snowmen around the venue for free, and every person instantly recognizes it - no explanation needed. Go with what's proven, affordable, and requires zero audience education.
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>🌟 The Visionary</h3>
+                    <span class="vote-badge">2 Votes 🏆</span>
+                </div>
+                <div class="opinion-text">
+                    <strong>The Magical Ice Fairy or Friendly Yeti represent transformative potential here.</strong> While the traditional choices are safe, imagine a mascot that evolves the entire festival identity - the Ice Fairy could become a multimedia storytelling platform, spawning AR experiences, animated content, and immersive theatrical moments that transcend typical festival branding. Ask yourself: which mascot doesn't just represent the festival, but could fundamentally reimagine what a winter festival can be?
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>🔗 The Systems Thinker</h3>
+                    <span class="vote-badge">2 Votes 🏆</span>
+                </div>
+                <div class="opinion-text">
+                    Looking at this through a systems lens, I'd advocate for the <strong>Penguin 🐧</strong> because it creates the most positive feedback loops across multiple stakeholder networks. It simultaneously satisfies the Entertainment Coordinator's audience engagement goals, aligns with the Marketing Director's need for costume practicality, and has proven merchandising ecosystems that can generate revenue streams to reinvest in festival growth.
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>😊 The Optimist</h3>
+                    <span class="vote-badge">1 Vote</span>
+                </div>
+                <div class="opinion-text">
+                    What an exciting decision - each of these mascots has incredible potential! I'm especially drawn to the <strong>Friendly Yeti 🦣</strong> because it combines the best of multiple worlds: it's unique enough to create buzz and memorable experiences, fun and approachable for all ages, and it gives us amazing storytelling opportunities that can evolve year after year!
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>😈 The Devil's Advocate</h3>
+                    <span class="vote-badge">2 Votes 🏆</span>
+                </div>
+                <div class="opinion-text">
+                    <strong>Hold on - what if choosing any single mascot is the wrong approach entirely?</strong> By selecting just one, you're alienating the constituencies backing the other four options, potentially creating internal division among your team. Instead of forcing a winner-take-all decision, shouldn't we be asking whether a rotating mascot system, a mascot family, or even no mascot at all might better serve a diverse community festival?
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>🤝 The Mediator</h3>
+                    <span class="vote-badge">1 Vote</span>
+                </div>
+                <div class="opinion-text">
+                    Looking at these wonderful options, I notice common themes we can build on. Rather than choosing just one, what if we <strong>created a "Winter Festival Family"</strong> where the Snowman serves as our primary, easily-recognizable mascot for wayfinding and logistics, while the Penguin, Polar Bear, Ice Fairy, and Yeti appear as supporting characters in different festival zones? This approach honors everyone's expertise!
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>👥 The User Advocate</h3>
+                    <span class="vote-badge">0 Votes</span>
+                </div>
+                <div class="opinion-text">
+                    I advocate for the <strong>Snowman ⛄</strong> because it's the most universally recognizable and accessible choice for our diverse community. A snowman is instantly understood across age groups, cultural backgrounds, and cognitive abilities. Most importantly, we need to ask: will a child with autism, a grandparent with dementia, or a newcomer to our community immediately feel welcomed?
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>📜 The Traditionalist</h3>
+                    <span class="vote-badge">0 Votes</span>
+                </div>
+                <div class="opinion-text">
+                    I strongly advocate for the <strong>Snowman ⛄</strong> as our festival mascot. This is a time-tested symbol that has represented winter celebrations for generations - it's instantly recognizable across all age groups and cultural backgrounds. Why reinvent the wheel when we have a mascot that's already beloved, cost-effective, and carries the weight of winter tradition?
+                </div>
+            </div>
+            
+            <div class="opinion-card">
+                <div class="opinion-header">
+                    <h3>📊 The Analyst</h3>
+                    <span class="vote-badge">0 Votes</span>
+                </div>
+                <div class="opinion-text">
+                    Based on objective metrics, we need to examine recognition rates, merchandising potential, and demographic appeal data. The <strong>Snowman ⛄</strong> shows the highest baseline recognition (95%+ in winter festival surveys) and lowest production costs, while <strong>Penguin 🐧</strong> consistently ranks #1 in child engagement metrics and drives 23% higher social media interaction rates according to zoo marketing studies.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Votes Received Donut Chart
+        const votesCtx = document.getElementById('votesChart').getContext('2d');
+        new Chart(votesCtx, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'Systems Thinker (Penguin)',
+                    'Visionary (Ice Fairy/Yeti)',
+                    "Devil's Advocate (Challenge)",
+                    'Optimist (Yeti)',
+                    'Mediator (Family)',
+                    'Pragmatist (Snowman)',
+                    'User Advocate (Snowman)',
+                    'Traditionalist (Snowman)',
+                    'Analyst (Snowman/Penguin)'
+                ],
+                datasets: [{
+                    data: [2, 2, 2, 1, 1, 1, 0, 0, 0],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#4facfe',
+                        '#43e97b',
+                        '#fa709a',
+                        '#fee140',
+                        '#30cfd0',
+                        '#c471ed'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 11
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Mascot Preferences Pie Chart
+        const mascotsCtx = document.getElementById('mascotsChart').getContext('2d');
+        new Chart(mascotsCtx, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Snowman ⛄',
+                    'Penguin 🐧',
+                    'Friendly Yeti 🦣',
+                    'Ice Fairy/Yeti 🧚',
+                    'Alternative Approach'
+                ],
+                datasets: [{
+                    data: [4, 2, 1, 1, 1],
+                    backgroundColor: [
+                        '#4facfe',
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#43e97b'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Systems Thinker',
+                    'Visionary',
+                    "Devil's Advocate",
+                    'Optimist',
+                    'Mediator',
+                    'Pragmatist',
+                    'User Advocate',
+                    'Traditionalist',
+                    'Analyst'
+                ],
+                datasets: [{
+                    label: 'Votes Received',
+                    data: [2, 2, 2, 1, 1, 1, 0, 0, 0],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#4facfe',
+                        '#43e97b',
+                        '#fa709a',
+                        '#fee140',
+                        '#30cfd0',
+                        '#c471ed'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        },
+                        title: {
+                            display: true,
+                            text: 'Votes Received'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Council Members'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
