@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival Staff Schedule - 3 Day Event</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #764ba2;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .staff-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .staff-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+
+        .staff-role {
+            color: #667eea;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+
+        .availability {
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .constraint {
+            background: #fff3cd;
+            padding: 8px;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+            margin-top: 10px;
+            font-size: 0.85em;
+        }
+
+        .conflicts {
+            background: #f8d7da;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #dc3545;
+        }
+
+        .conflict-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .conflict-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .warning-icon {
+            color: #dc3545;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .schedule-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: #f5f7fa;
+            border: none;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #ddd;
+        }
+
+        .day-schedule {
+            display: none;
+        }
+
+        .day-schedule.active {
+            display: block;
+        }
+
+        .time-slots {
+            display: grid;
+            gap: 15px;
+        }
+
+        .time-slot {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .time-header {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .staff-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .staff-badge {
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .staff-badge.critical {
+            background: #dc3545;
+        }
+
+        .staff-badge.tech {
+            background: #28a745;
+        }
+
+        .note {
+            background: #d1ecf1;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎪 Festival Staff Schedule</h1>
+        <p class="subtitle">3-Day Event | Monday - Wednesday</p>
+
+        <!-- Staff Information Section -->
+        <div class="section">
+            <h2>👥 Staff Directory</h2>
+            <div class="staff-grid">
+                <div class="staff-card">
+                    <div class="staff-name">Marcus Thompson</div>
+                    <div class="staff-role">Security Chief</div>
+                    <div class="availability">📅 Mon-Wed | ⏰ 6am-6pm</div>
+                    <div class="constraint">💡 Prefers morning shifts</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">Elena Martinez</div>
+                    <div class="staff-role">Marketing Coordinator</div>
+                    <div class="availability">📅 Tue-Thu | ⏰ 9am-9pm</div>
+                    <div class="constraint">⚠️ NO weekends available</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">Sarah Chen</div>
+                    <div class="staff-role">Event Coordinator</div>
+                    <div class="availability">📅 Every day | ⏰ 8am-8pm</div>
+                    <div class="constraint">🍽️ Needs lunch break</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">David Kim</div>
+                    <div class="staff-role">Technical Support (Photo Booth)</div>
+                    <div class="availability">📅 Mon-Wed | ⏰ 10am-10pm</div>
+                    <div class="constraint">🔧 Only person trained on photo booth</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">Lisa Rodriguez</div>
+                    <div class="staff-role">Volunteer (New)</div>
+                    <div class="availability">📅 Wed-Fri | ⏰ 12pm-8pm</div>
+                    <div class="constraint">📚 Needs training supervisor</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">Tom Peterson</div>
+                    <div class="staff-role">Setup Crew Chief</div>
+                    <div class="availability">📅 Sun-Tue | ⏰ 5am-3pm</div>
+                    <div class="constraint">💪 Handles heavy equipment</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">Emma Wilson</div>
+                    <div class="staff-role">First Aid / Medical</div>
+                    <div class="availability">📅 All week | ⏰ 9am-5pm</div>
+                    <div class="constraint">🚨 REQUIRED at every event</div>
+                </div>
+
+                <div class="staff-card">
+                    <div class="staff-name">Jake Anderson</div>
+                    <div class="staff-role">Sound Technician</div>
+                    <div class="availability">📅 Mon-Wed | ⏰ 7am-11pm</div>
+                    <div class="constraint">🎵 Main stage only</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scheduling Conflicts Section -->
+        <div class="section">
+            <h2>⚠️ Identified Scheduling Conflicts & Notes</h2>
+            <div class="conflicts">
+                <div class="conflict-item">
+                    <span class="warning-icon">⚠️</span>
+                    <strong>Monday Gap:</strong> Emma (first aid) not available until 9am, but Tom starts setup at 5am. Early setup will be without medical coverage.
+                </div>
+                <div class="conflict-item">
+                    <span class="warning-icon">⚠️</span>
+                    <strong>Elena Limited:</strong> Elena only available Tuesday-Thursday. Cannot help with Monday or Wednesday setup/breakdown.
+                </div>
+                <div class="conflict-item">
+                    <span class="warning-icon">⚠️</span>
+                    <strong>Photo Booth Risk:</strong> David is the ONLY person trained on photo booth (Mon-Wed only). No backup if he's unavailable.
+                </div>
+                <div class="conflict-item">
+                    <span class="warning-icon">⚠️</span>
+                    <strong>Lisa Training Required:</strong> Lisa (Wed-Fri, 12pm-8pm) needs supervision. Only available Wednesday during festival.
+                </div>
+                <div class="conflict-item">
+                    <span class="warning-icon">⚠️</span>
+                    <strong>Wednesday Coverage:</strong> Tom (setup crew) not available Wednesday. Heavy equipment handling may be challenging.
+                </div>
+                <div class="conflict-item">
+                    <span class="warning-icon">⚠️</span>
+                    <strong>Late Evening Coverage:</strong> Only Jake and David available past 8pm (Jake until 11pm, David until 10pm). Limited late coverage.
+                </div>
+                <div class="conflict-item">
+                    <span class="warning-icon">💡</span>
+                    <strong>Emma Critical:</strong> Emma required at ALL events but only 9am-5pm. All main events must occur during this window.
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-Day Schedule Section -->
+        <div class="section">
+            <h2>📅 3-Day Festival Schedule</h2>
+            
+            <div class="schedule-tabs">
+                <button class="tab active" onclick="showDay('monday')">Monday</button>
+                <button class="tab" onclick="showDay('tuesday')">Tuesday</button>
+                <button class="tab" onclick="showDay('wednesday')">Wednesday</button>
+            </div>
+
+            <!-- Monday Schedule -->
+            <div id="monday" class="day-schedule active">
+                <h3 style="color: #667eea; margin-bottom: 15px;">Monday - Festival Day 1</h3>
+                <div class="time-slots">
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 5:00 AM - 8:00 AM | Early Setup</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Tom Peterson - Setup Crew</span>
+                            <span class="staff-badge">Marcus Thompson - Security (from 6am)</span>
+                            <span class="staff-badge">Jake Anderson - Sound Check (from 7am)</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 9:00 AM - 12:00 PM | Morning Session</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth (from 10am)</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 12:00 PM - 2:00 PM | Lunch & Afternoon Setup</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage</span>
+                            <span class="staff-badge">Tom Peterson - Setup (until 3pm)</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Note: Sarah takes lunch break (covered by Marcus)</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 2:00 PM - 5:00 PM | Afternoon Main Events</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 5:00 PM - 8:00 PM | Evening Events</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security (until 6pm)</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Note: Emma unavailable after 5pm - keep events low-risk</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 8:00 PM - 10:00 PM | Evening Breakdown</div>
+                        <div class="staff-list">
+                            <span class="staff-badge tech">David Kim - Tech Support</span>
+                            <span class="staff-badge">Jake Anderson - Sound Breakdown</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tuesday Schedule -->
+            <div id="tuesday" class="day-schedule">
+                <h3 style="color: #667eea; margin-bottom: 15px;">Tuesday - Festival Day 2</h3>
+                <div class="time-slots">
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 5:00 AM - 8:00 AM | Early Setup</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Tom Peterson - Setup Crew</span>
+                            <span class="staff-badge">Marcus Thompson - Security (from 6am)</span>
+                            <span class="staff-badge">Jake Anderson - Sound Check (from 7am)</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 9:00 AM - 12:00 PM | Morning Session</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth (from 10am)</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 12:00 PM - 2:00 PM | Lunch & Activities</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage</span>
+                            <span class="staff-badge">Tom Peterson - Setup (until 3pm)</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Note: Sarah takes lunch break (Elena and Marcus cover)</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 2:00 PM - 5:00 PM | Afternoon Peak Events</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 5:00 PM - 8:00 PM | Evening Events</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security (until 6pm)</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Note: Emma unavailable after 5pm</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 8:00 PM - 10:00 PM | Evening Breakdown</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Elena Martinez - Marketing (until 9pm)</span>
+                            <span class="staff-badge tech">David Kim - Tech Support</span>
+                            <span class="staff-badge">Jake Anderson - Sound Breakdown</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wednesday Schedule -->
+            <div id="wednesday" class="day-schedule">
+                <h3 style="color: #667eea; margin-bottom: 15px;">Wednesday - Festival Day 3 (Final)</h3>
+                <div class="time-slots">
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 6:00 AM - 9:00 AM | Early Setup (No Tom Available)</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Marcus Thompson - Security (from 6am)</span>
+                            <span class="staff-badge">Jake Anderson - Sound Check (from 7am)</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #dc3545;">⚠️ Tom unavailable - limited heavy equipment capability</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 9:00 AM - 12:00 PM | Morning Session</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth (from 10am)</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 12:00 PM - 2:00 PM | Lunch & Lisa's Training Begins</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage</span>
+                            <span class="staff-badge" style="background: #ffc107; color: #000;">Lisa Rodriguez - Training (from 12pm, supervised by Sarah)</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Note: Sarah supervises Lisa during lunch rotation</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 2:00 PM - 5:00 PM | Final Afternoon Events</div>
+                        <div class="staff-list">
+                            <span class="staff-badge critical">Emma Wilson - First Aid</span>
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                            <span class="staff-badge" style="background: #ffc107; color: #000;">Lisa Rodriguez - Volunteer Support</span>
+                        </div>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 5:00 PM - 8:00 PM | Closing Events & Breakdown</div>
+                        <div class="staff-list">
+                            <span class="staff-badge">Sarah Chen - Coordinator</span>
+                            <span class="staff-badge">Marcus Thompson - Security (until 6pm)</span>
+                            <span class="staff-badge">Elena Martinez - Marketing</span>
+                            <span class="staff-badge tech">David Kim - Photo Booth</span>
+                            <span class="staff-badge">Jake Anderson - Main Stage Sound</span>
+                            <span class="staff-badge" style="background: #ffc107; color: #000;">Lisa Rodriguez - Volunteer Support</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #666;">Note: Emma unavailable after 5pm - final breakdown begins</p>
+                    </div>
+
+                    <div class="time-slot">
+                        <div class="time-header">⏰ 8:00 PM - 10:00 PM | Final Breakdown</div>
+                        <div class="staff-list">
+                            <span class="staff-badge tech">David Kim - Tech Breakdown</span>
+                            <span class="staff-badge">Jake Anderson - Sound System Breakdown</span>
+                        </div>
+                        <p style="margin-top: 10px; font-size: 0.9em; color: #dc3545;">⚠️ Limited crew for final breakdown</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div class="note">
+            <h3 style="margin-bottom: 10px; color: #17a2b8;">📝 Scheduling Notes & Recommendations</h3>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>Emma Wilson (First Aid) is CRITICAL:</strong> All major events scheduled 9am-5pm when she's available.</li>
+                <li><strong>Photo Booth Coverage:</strong> David is the only trained operator. Consider training backup staff.</li>
+                <li><strong>Wednesday Challenges:</strong> Tom unavailable - heavy setup done Mon/Tue. Wednesday is lighter activities.</li>
+                <li><strong>Lisa Training:</strong> Supervised by Sarah on Wednesday afternoon. Can help with general volunteer tasks.</li>
+                <li><strong>Security Gaps:</strong> Marcus leaves at 6pm - Sarah or Elena can monitor late sessions (lower risk events only).</li>
+                <li><strong>Late Coverage:</strong> Only Jake and David after 8pm. Keep late breakdown minimal.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function showDay(day) {
+            // Hide all day schedules
+            const schedules = document.querySelectorAll('.day-schedule');
+            schedules.forEach(schedule => schedule.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected day
+            document.getElementById(day).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
