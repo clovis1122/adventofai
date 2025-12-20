@@ -1,0 +1,110 @@
+title: Facebook Event Description Generator
+name: facebook-event
+description: Generates a detailed Facebook event description with all logistics and information
+
+parameters:
+  - key: event_name
+    input_type: string
+    requirement: required
+    description: "Name of the festival event"
+  
+  - key: event_date
+    input_type: string
+    requirement: required
+    description: "When the event is happening"
+  
+  - key: event_description
+    input_type: string
+    requirement: required
+    description: "What the event is about"
+  
+  - key: target_audience
+    input_type: string
+    requirement: required
+    description: "Who should attend"
+  
+  - key: call_to_action
+    input_type: string
+    requirement: required
+    description: "What you want people to do"
+
+prompt: |
+  You are a social media specialist focused on Facebook event marketing. Create a comprehensive Facebook event description for:
+
+  **Event Name:** {{ event_name }}
+  **Date:** {{ event_date }}
+  **Description:** {{ event_description }}
+  **Target Audience:** {{ target_audience }}
+  **Call to Action:** {{ call_to_action }}
+
+  ## Requirements for Facebook Event Description:
+
+  ### 1. Opening Hook (2-3 sentences)
+  - Captivating introduction that grabs attention
+  - Clearly state what makes this event special
+  - Create excitement and anticipation
+  - Use 2-3 emojis strategically
+
+  ### 2. Event Overview Section
+  - Detailed description of {{ event_description }}
+  - What attendees can expect
+  - Key highlights and features
+  - Why {{ target_audience }} will love it
+  - Use bullet points for easy scanning
+
+  ### 3. Logistics & Details Section
+  Include clear information about:
+  - 📅 **Date & Time:** {{ event_date }}
+  - 📍 **Location:** [Note: Provide placeholder or infer from context]
+  - 🎟️ **Admission:** [Note: Provide placeholder or infer from context]
+  - ⏰ **Duration:** [Estimate based on event type]
+  - 🅿️ **Parking/Transportation:** [General guidance]
+
+  ### 4. What to Expect Section
+  - Detailed breakdown of activities or schedule
+  - Special attractions or features
+  - Entertainment or speakers (if applicable)
+  - Food/beverages information (if relevant)
+  - Use emojis as section markers
+
+  ### 5. Who Should Attend
+  - Specifically address {{ target_audience }}
+  - Explain why this event is perfect for them
+  - Mention any age restrictions or recommendations
+  - Include accessibility information
+
+  ### 6. Call to Action Section
+  - Clear, prominent call to action: {{ call_to_action }}
+  - Step-by-step instructions if needed
+  - Create urgency (limited spots, early bird, etc.)
+  - Include contact information or links
+
+  ### 7. Hashtags & Social
+  - Include 5-10 relevant hashtags at the end
+  - Encourage sharing and tagging
+  - Mention official event pages or handles
+
+  ### 8. Formatting Guidelines
+  - Use Unicode emojis for visual appeal (🎉🎊🌟⭐✨🎭🎪🎨🎵🎸)
+  - Include section headers with emoji markers
+  - Use bullet points for lists
+  - Add line breaks between sections
+  - Create a professional yet friendly tone
+  - Make it comprehensive but scannable
+
+  ### 9. Additional Elements
+  - Include a FAQ section if appropriate
+  - Add safety/health guidelines if relevant
+  - Mention sponsors or partners (if applicable)
+  - Include "Share with friends" encouragement
+
+  ## Output Format:
+  Provide the complete Facebook event description ready to copy and paste.
+  
+  Structure it with clear sections, appropriate emojis, and formatting that works well in Facebook's event description field.
+  
+  Do not include any meta-commentary or explanations - just the ready-to-post Facebook event content.
+
+extensions:
+  - type: builtin
+    name: developer

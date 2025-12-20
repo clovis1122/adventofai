@@ -1,0 +1,98 @@
+title: Twitter/X Thread Generator
+name: twitter-thread
+description: Creates a concise Twitter/X thread (3-5 tweets) that builds excitement for an event
+
+parameters:
+  - key: event_name
+    input_type: string
+    requirement: required
+    description: "Name of the festival event"
+  
+  - key: event_date
+    input_type: string
+    requirement: required
+    description: "When the event is happening"
+  
+  - key: event_description
+    input_type: string
+    requirement: required
+    description: "What the event is about"
+  
+  - key: target_audience
+    input_type: string
+    requirement: required
+    description: "Who should attend"
+  
+  - key: call_to_action
+    input_type: string
+    requirement: required
+    description: "What you want people to do"
+
+prompt: |
+  You are a social media strategist specializing in Twitter/X content. Create an engaging Twitter/X thread (3-5 tweets) for the following event:
+
+  **Event Name:** {{ event_name }}
+  **Date:** {{ event_date }}
+  **Description:** {{ event_description }}
+  **Target Audience:** {{ target_audience }}
+  **Call to Action:** {{ call_to_action }}
+
+  ## Requirements for Twitter/X Thread:
+
+  ### 1. Thread Structure
+  - Create 3-5 tweets that work together as a cohesive narrative
+  - Each tweet must be under 280 characters
+  - Number each tweet (1/X format)
+  - Build excitement progressively through the thread
+
+  ### 2. Tweet 1 (Hook)
+  - Start with an attention-grabbing statement or question
+  - Introduce the event name: {{ event_name }}
+  - Create curiosity to encourage reading the thread
+  - Include 1-2 relevant emojis
+  - Mention the date: {{ event_date }}
+
+  ### 3. Middle Tweets (2-4)
+  - Share compelling details about {{ event_description }}
+  - Highlight what makes this event unique
+  - Address why {{ target_audience }} should care
+  - Use bullet points or short sentences for scannability
+  - Include strategic emojis for visual breaks
+  - Build anticipation with each tweet
+
+  ### 4. Final Tweet
+  - Strong call to action: {{ call_to_action }}
+  - Create urgency or FOMO
+  - Include 5-8 relevant hashtags
+  - Optional: Ask for retweets or engagement
+
+  ### 5. Writing Style
+  - Concise and punchy
+  - Conversational tone
+  - Use line breaks within tweets for readability
+  - Include emojis strategically (2-3 per tweet max)
+  - Vary sentence structure to maintain interest
+
+  ### 6. Hashtag Strategy
+  - Use hashtags primarily in the final tweet
+  - Include event-specific hashtag
+  - Add 2-3 trending or relevant community hashtags
+  - Keep hashtags concise and readable
+
+  ## Output Format:
+  Provide the complete Twitter/X thread ready to post. Format each tweet clearly:
+
+  **Tweet 1/X:**
+  [Tweet content here]
+
+  **Tweet 2/X:**
+  [Tweet content here]
+
+  ... and so on.
+
+  Each tweet should be clearly separated and numbered. Include character counts if close to the limit.
+  Do not include any meta-commentary or explanations - just the ready-to-post thread.
+
+extensions:
+  - type: builtin
+    name: developer

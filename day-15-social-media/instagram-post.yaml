@@ -1,0 +1,89 @@
+title: Instagram Post Generator
+name: instagram-post
+description: Generates Instagram caption with hashtags and emojis for event promotion
+
+parameters:
+  - key: event_name
+    input_type: string
+    requirement: required
+    description: "Name of the festival event"
+  
+  - key: event_date
+    input_type: string
+    requirement: required
+    description: "When the event is happening"
+  
+  - key: event_description
+    input_type: string
+    requirement: required
+    description: "What the event is about"
+  
+  - key: target_audience
+    input_type: string
+    requirement: required
+    description: "Who should attend"
+  
+  - key: call_to_action
+    input_type: string
+    requirement: required
+    description: "What you want people to do"
+
+prompt: |
+  You are a social media expert specializing in Instagram content. Create an engaging Instagram post for the following event:
+
+  **Event Name:** {{ event_name }}
+  **Date:** {{ event_date }}
+  **Description:** {{ event_description }}
+  **Target Audience:** {{ target_audience }}
+  **Call to Action:** {{ call_to_action }}
+
+  ## Requirements for Instagram Post:
+
+  ### 1. Captivating Caption
+  - Start with an attention-grabbing hook
+  - Tell a compelling story about the event
+  - Create FOMO (fear of missing out)
+  - Keep it concise but engaging (150-200 words max)
+  - Use line breaks for readability
+  - Include the call to action naturally
+
+  ### 2. Strategic Emoji Usage
+  - Use 3-5 relevant emojis throughout the caption
+  - Place emojis to break up text and add visual interest
+  - Avoid overuse - maintain professionalism
+  - Match emojis to the event theme and tone
+
+  ### 3. Hashtag Strategy
+  - Include 15-25 relevant hashtags
+  - Mix of popular, niche, and branded hashtags
+  - Place hashtags at the end of the caption
+  - Group hashtags by category:
+    * Event-specific (e.g., #{{ event_name | replace(' ', '') }})
+    * Location-based
+    * Theme-based
+    * Community hashtags
+    * Trending hashtags relevant to the event
+  - Format hashtags in groups of 3-5 with line breaks for readability
+
+  ### 4. Audience Engagement
+  - Speak directly to {{ target_audience }}
+  - Use conversational, friendly tone
+  - Ask engaging questions when appropriate
+  - Create excitement and anticipation
+
+  ### 5. Call to Action
+  - Make {{ call_to_action }} clear and compelling
+  - Use action verbs
+  - Create urgency when appropriate (e.g., "Limited spots!", "Don't miss out!")
+
+  ## Output Format:
+  Provide the complete Instagram caption ready to copy and paste. Include:
+  1. The main caption with emojis
+  2. A separator line (e.g., "---")
+  3. The hashtags organized in groups
+
+  Do not include any meta-commentary or explanations - just the ready-to-post Instagram content.
+
+extensions:
+  - type: builtin
+    name: developer
