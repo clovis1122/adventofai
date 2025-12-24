@@ -1,0 +1,6 @@
+Guidelines for webapps, when required:
+- Single `index.html` file containing all the HTML, CSS, and JavaScript code.
+- Responsive and mobile-friendly.
+- Visually appealing and festive.
+
+These will be deployed automatically to Vercel.

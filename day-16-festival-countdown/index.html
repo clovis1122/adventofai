@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Festival Countdown 2026</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated snowflakes */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: fall linear infinite;
+            user-select: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #764ba2;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .time-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px 15px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .time-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .time-value {
+            font-size: 3em;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .fun-fact {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            color: white;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.3);
+        }
+
+        .fun-fact-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .signup-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .signup-section h2 {
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .signup-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px 20px;
+            border: 2px solid #764ba2;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .email-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .notify-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .notify-btn:active {
+            transform: translateY(0);
+        }
+
+        .success-message {
+            text-align: center;
+            color: #28a745;
+            margin-top: 15px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .decorative-icon {
+            font-size: 3em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .time-value {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 25px;
+            }
+
+            .countdown {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .signup-form {
+                flex-direction: column;
+            }
+
+            .email-input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="decorative-icon">❄️ 🎄 ⛄</div>
+        <h1>Winter Festival 2026</h1>
+        <p class="subtitle">Countdown to the Magic</p>
+
+        <div class="countdown" id="countdown">
+            <div class="time-box">
+                <span class="time-value" id="days">000</span>
+                <span class="time-label">Days</span>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="hours">00</span>
+                <span class="time-label">Hours</span>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="minutes">00</span>
+                <span class="time-label">Minutes</span>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="seconds">00</span>
+                <span class="time-label">Seconds</span>
+            </div>
+        </div>
+
+        <div class="fun-fact">
+            <p class="fun-fact-text" id="funFact">Loading amazing facts...</p>
+        </div>
+
+        <div class="signup-section">
+            <h2>🔔 Get Notified!</h2>
+            <form class="signup-form" id="signupForm">
+                <input 
+                    type="email" 
+                    class="email-input" 
+                    placeholder="Enter your email address"
+                    required
+                    id="emailInput"
+                >
+                <button type="submit" class="notify-btn">Notify Me!</button>
+            </form>
+            <p class="success-message" id="successMessage">✨ Thank you! We'll notify you when the festival is near!</p>
+        </div>
+    </div>
+
+    <script>
+        // Snowflake animation
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.fontSize = Math.random() * 1 + 0.5 + 'em';
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        // Create snowflakes periodically
+        setInterval(createSnowflake, 300);
+
+        // Fun facts
+        const funFacts = [
+            "🎉 Last year's festival had 5,000 visitors!",
+            "☕ We served 2,000 cups of hot cocoa!",
+            "🧊 The ice sculpture took 12 hours to carve!",
+            "💝 50 volunteers made this festival possible!",
+            "🦣 The yeti mascot won by popular vote!"
+        ];
+
+        let currentFactIndex = 0;
+
+        function rotateFunFact() {
+            const funFactElement = document.getElementById('funFact');
+            funFactElement.style.animation = 'none';
+            setTimeout(() => {
+                currentFactIndex = (currentFactIndex + 1) % funFacts.length;
+                funFactElement.textContent = funFacts[currentFactIndex];
+                funFactElement.style.animation = 'fadeIn 0.5s ease-in';
+            }, 10);
+        }
+
+        // Initialize first fact
+        document.getElementById('funFact').textContent = funFacts[0];
+
+        // Rotate facts every 5 seconds
+        setInterval(rotateFunFact, 5000);
+
+        // Countdown timer
+        const festivalDate = new Date('2026-12-01T10:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = festivalDate - now;
+
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = 
+                    '<div style="grid-column: 1/-1; text-align: center; font-size: 2em; color: #667eea;">🎉 The Festival is Here! 🎉</div>';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(3, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // Email signup form
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value;
+            
+            // In a real application, you would send this to a backend
+            console.log('Email signup:', email);
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('emailInput').value = '';
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
