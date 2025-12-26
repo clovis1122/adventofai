@@ -1,0 +1,3 @@
+This is a Model Context Protocol (MCP) server implementation for a Winter Wishlist application.
+
+To use this server, add it to your Goose or Claude Desktop configuration and restart the client.

@@ -1,0 +1,19 @@
+{
+  "name": "winter-wishlist-mcp",
+  "version": "1.0.0",
+  "description": "Winter Wishlist MCP Server - A magical wishbox with beautiful UI",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "winter-wishlist": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["mcp", "wishlist", "winter"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.1"
+  }
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winter Wishbox Demo ✨</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wishbox-container {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5em;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 1.1em;
+    }
+
+    .wishes-container {
+      display: grid;
+      gap: 20px;
+    }
+
+    .wish-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 5px solid #ccc;
+    }
+
+    .wish-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .dream-wish {
+      border-left-color: #f093fb;
+      background: linear-gradient(135deg, #fff 0%, #fef5ff 100%);
+      box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+    }
+
+    .dream-wish:hover {
+      box-shadow: 0 8px 30px rgba(240, 147, 251, 0.5);
+    }
+
+    .hopeful-wish {
+      border-left-color: #4facfe;
+      background: linear-gradient(135deg, #fff 0%, #f0f9ff 100%);
+    }
+
+    .small-wish {
+      border-left-color: #43e97b;
+      background: linear-gradient(135deg, #fff 0%, #f0fff5 100%);
+    }
+
+    .granted {
+      opacity: 0.8;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .granted::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 215, 0, 0.3),
+        transparent
+      );
+      animation: sparkle 3s infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        transform: rotate(0deg);
+      }
+      50% {
+        transform: rotate(180deg);
+      }
+    }
+
+    .wish-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      font-size: 0.85em;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .wish-category {
+      color: #667eea;
+    }
+
+    .wish-priority {
+      color: #764ba2;
+    }
+
+    .wish-content {
+      position: relative;
+    }
+
+    .wish-text {
+      font-size: 1.2em;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .granted-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 15px;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9em;
+      font-weight: 600;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2em;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wishbox-container">
+    <div class="header">
+      <h1>✨ Winter Wishbox ✨</h1>
+      <p>Your magical collection of wishes</p>
+    </div>
+    
+    <div class="wishes-container">
+      <div class="wish-card dream-wish granted">
+        <div class="wish-header">
+          <span class="wish-category">kindness</span>
+          <span class="wish-priority">dream wish</span>
+        </div>
+        <div class="wish-content">
+          <p class="wish-text">I wish for warm mittens for everyone</p>
+          <span class="granted-badge">✨ Granted!</span>
+        </div>
+      </div>
+
+      <div class="wish-card hopeful-wish">
+        <div class="wish-header">
+          <span class="wish-category">magic</span>
+          <span class="wish-priority">hopeful wish</span>
+        </div>
+        <div class="wish-content">
+          <p class="wish-text">Snow on Christmas morning</p>
+        </div>
+      </div>
+
+      <div class="wish-card small-wish">
+        <div class="wish-header">
+          <span class="wish-category">experience</span>
+          <span class="wish-priority">small wish</span>
+        </div>
+        <div class="wish-content">
+          <p class="wish-text">Hot chocolate every day this winter</p>
+        </div>
+      </div>
+
+      <div class="wish-card dream-wish">
+        <div class="wish-header">
+          <span class="wish-category">toy</span>
+          <span class="wish-priority">dream wish</span>
+        </div>
+        <div class="wish-content">
+          <p class="wish-text">A magical adventure with friends</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Total Wishes</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Granted</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Pending</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
