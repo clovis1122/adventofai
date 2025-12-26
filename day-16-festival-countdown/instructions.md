@@ -1,4 +1,4 @@
-# Day 14: Social Media Blitz
+# Day 16: Festival countdown
 
 ## Instructions
 Create a simple, beautiful countdown app that shows:
